@@ -25,20 +25,40 @@ struct InvestedView: View {
             
             Spacer()
             
-            Button("mock investment"){
-                Task{
-                    
-                    let investment = InvestmentTypeModel.Stock(identifier: "BBAS3", value: 28.7, quantity: 10)
-                    
-                    let investment2 = InvestmentTypeModel.Reit(identifier: "XPML11", value: 28.7, quantity: 10)
-                    
-//                    let investment = Investment(identifier: "BBAS3", value: 28.7)
-                    
-                    await Manager_SwiftData.shared.addInvestment(investment)
-                    await Manager_SwiftData.shared.addInvestment(investment2)
-                    
+            Menu("MOCK INVESTMENT") {
+                Button("Stock"){
+                    Task{
+                        
+                        let investment = InvestmentTypeModel.Stock(identifier: "BBAS3", value: 28.7, quantity: 10)
+                        
+                        await Manager_SwiftData.shared.addInvestment(investment)
+     
+                    }
                 }
-            }.buttonStyle(.borderedProminent)
+                
+                Button("Reit"){
+                    Task{
+                        
+                        let investment2 = InvestmentTypeModel.Reit(identifier: "XPML11", value: 28.7, quantity: 10)
+     
+                        await Manager_SwiftData.shared.addInvestment(investment2)
+                        
+                    }
+                }
+                
+                Button("Crypto"){
+                    Task{
+                        
+                        let investment2 = InvestmentTypeModel.Crypto(identifier: "BTC", value: 28.7, quantity: 1, a: 213)
+     
+                        await Manager_SwiftData.shared.addInvestment(investment2)
+                        
+                    }
+                }
+            }
+            
+            
+            .buttonStyle(.borderedProminent)
             
             Button("remove all"){
                 Task{

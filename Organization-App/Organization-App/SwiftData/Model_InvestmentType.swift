@@ -46,9 +46,11 @@ enum InvestmentTypeModel {
     
     final class Crypto: Investment {
         var quantity: Double
+        var a: Int
         
-        init(identifier: String, value: Double, quantity: Double) {
+        init(identifier: String, value: Double, quantity: Double, a: Int) {
             self.quantity = quantity
+            self.a = a
             super.init(identifier: identifier, type: "CRYPTO", value: value)
         }
         

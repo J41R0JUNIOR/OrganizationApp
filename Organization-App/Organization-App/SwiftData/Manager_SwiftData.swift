@@ -80,6 +80,7 @@ class Manager_SwiftData {
     
     func deleteAll() async throws {
         user?.investments = nil
+        userInvestments.removeAll()
         
         await saveData()
         
