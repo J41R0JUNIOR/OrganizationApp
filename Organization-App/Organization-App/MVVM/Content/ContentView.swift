@@ -16,7 +16,7 @@ struct ContentView: View {
                     Text("Home")
                 }
             
-            InvestedView()
+            Invested_View()
                 .tabItem {
                     Image(systemName: "person.circle")
                 }

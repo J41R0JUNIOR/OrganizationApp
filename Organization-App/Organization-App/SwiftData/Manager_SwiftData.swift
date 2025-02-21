@@ -33,7 +33,6 @@ class Manager_SwiftData {
             context?.insert(newUser)
             
             await saveData()
-            
             self.user = newUser
         }
     
@@ -51,13 +50,23 @@ class Manager_SwiftData {
             return
         }
         
-        user.investment?.append(investment)
+        switch investment.type {
+        case .crypto:
+            user.crypto?.append(investment)
+        case .stock:
+            user.stock?.append(investment)
+        case .reit:
+            user.reit?.append(investment)
+        }
+        
         await saveData()
   
     }
     
     func deleteAll() async{
-        user?.investment?.removeAll()
+        user?.stock?.removeAll()
+        user?.crypto?.removeAll()
+        user?.reit?.removeAll()
         await saveData()
     }
     
@@ -69,7 +78,16 @@ class Manager_SwiftData {
             }
         }
     
-    func deleteInvestment(_ index: IndexSet) async{
-        user?.investment?.remove(atOffsets: index)
+    func deleteInvestment(type: TypeInvestment, _ index: IndexSet) async{
+        switch type {
+                
+        case .crypto:
+            user?.crypto?.remove(atOffsets: index)
+        case .stock:
+            user?.stock?.remove(atOffsets: index)
+        case .reit:
+            user?.reit?.remove(atOffsets: index)
+        }
+        
     }
 }

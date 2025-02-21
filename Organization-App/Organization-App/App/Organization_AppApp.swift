@@ -13,6 +13,7 @@ struct Organization_AppApp: App {
         WindowGroup {
             ContentView()
             
-        }.modelContainer(for: User.self)
+        }
+        .modelContainer(.appContainer)
     }
 }

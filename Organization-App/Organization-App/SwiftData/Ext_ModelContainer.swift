@@ -9,6 +9,7 @@ import Foundation
 import SwiftData
 
 extension ModelContainer{
+    
     static let appContainer: ModelContainer = {
         do{
             let container = try ModelContainer(for: User.self, configurations: ModelConfiguration(isStoredInMemoryOnly: false))
