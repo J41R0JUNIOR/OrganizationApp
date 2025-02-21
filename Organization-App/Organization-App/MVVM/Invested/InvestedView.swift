@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct InvestedView: View {
-
+    
     var body: some View {
         VStack {
             List {
@@ -20,6 +20,7 @@ struct InvestedView: View {
                         Text("R$\(investment.value, specifier: "%.2f")")
                     }
                 }
+                .onDelete(perform: deleteInvestment)
                 .onMove(perform: moveInvestment)
             }
             .toolbar { EditButton() }
@@ -41,6 +42,15 @@ struct InvestedView: View {
                     }
                 }
             }
+        }
+    }
+    
+    private func deleteInvestment(at offsets: IndexSet) {
+        Task {
+            
+            await Manager_SwiftData.shared.deleteInvestment(offsets)
+            
+            Manager_SwiftData.shared.user?.investment?.remove(atOffsets: offsets)
         }
     }
     

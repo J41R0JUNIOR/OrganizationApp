@@ -68,4 +68,8 @@ class Manager_SwiftData {
                 print("Erro ao salvar investimento: \(error)")
             }
         }
+    
+    func deleteInvestment(_ index: IndexSet) async{
+        user?.investment?.remove(atOffsets: index)
+    }
 }

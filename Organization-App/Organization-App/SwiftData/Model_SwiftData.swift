@@ -27,7 +27,7 @@ class Investment {
     var value: Double
     var qtd: Int?
 
-    init(type: String, identifier: String, value: Double, qtd: Int? = nil) {
+    init(type: String, identifier: String, value: Double, qtd: Int? = 1) {
         self.identifier = identifier
         self.type = type
         self.value = value
