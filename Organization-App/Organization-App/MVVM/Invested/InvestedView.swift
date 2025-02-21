@@ -9,66 +9,51 @@ import SwiftUI
 import SwiftData
 
 struct InvestedView: View {
+    @State private var investments: [Investment] = Manager_SwiftData.shared.user?.investment ?? []
+    
     var body: some View {
-        VStack{
+        VStack {
+            List {
+                ForEach(investments, id: \.id) { investment in
+                    HStack {
+                        Text(investment.identifier)
+                        Spacer()
+                        Text("$\(investment.value, specifier: "%.2f")")
+                    }
+                }
+                .onMove(perform: moveInvestment)
+            }
+            .toolbar { EditButton() }
+            
             Spacer()
             
-            List{
-                ForEach(Manager_SwiftData.shared.userInvestments, id: \.id){qtd in
-                    
-                    HStack{
-                        Text(qtd.identifier)
-                        Text(qtd.value.description)
-                    }
+            HStack {
+                Menu("MOCK INVESTMENT") {
+                    Button("Stock") { addMockInvestment(investment: Investment(type: "STOCK", identifier: "BBAS3", value: 28.7, qtd: 10)) }
+                    Button("Reit") { addMockInvestment(investment: Investment(type: "REIT", identifier: "XPML11", value: 28.7)) }
+                    Button("Crypto") { addMockInvestment(investment: Investment(type: "CRYPTO", identifier: "BTC", value: 28.7, qtd: 1)) }
                 }
-            }
-            
-            Spacer()
-            
-            Menu("MOCK INVESTMENT") {
-                Button("Stock"){
-                    Task{
-                        
-                        let investment = InvestmentTypeModel.Stock(identifier: "BBAS3", value: 28.7, quantity: 10)
-                        
-                        await Manager_SwiftData.shared.addInvestment(investment)
-     
-                    }
-                }
+                .buttonStyle(.borderedProminent)
                 
-                Button("Reit"){
-                    Task{
-                        
-                        let investment2 = InvestmentTypeModel.Reit(identifier: "XPML11", value: 28.7, quantity: 10)
-     
-                        await Manager_SwiftData.shared.addInvestment(investment2)
-                        
-                    }
-                }
-                
-                Button("Crypto"){
-                    Task{
-                        
-                        let investment2 = InvestmentTypeModel.Crypto(identifier: "BTC", value: 28.7, quantity: 1, a: 213)
-     
-                        await Manager_SwiftData.shared.addInvestment(investment2)
-                        
+                Button("Remove All") {
+                    Task {
+                        await Manager_SwiftData.shared.deleteAll()
+                        investments.removeAll()
                     }
                 }
             }
+        }
+    }
+    
+    private func moveInvestment(from source: IndexSet, to destination: Int) {
+        investments.move(fromOffsets: source, toOffset: destination)
+    }
+    
+    private func addMockInvestment(investment: Investment) {
+        Task {
             
-            
-            .buttonStyle(.borderedProminent)
-            
-            Button("remove all"){
-                Task{
-                    try await Manager_SwiftData.shared.deleteAll()
-                }
-            }
-        }.task {
-            Task{
-                try await Manager_SwiftData.shared.fetchInvestments()
-            }
+            try await Manager_SwiftData.shared.addInvestment(investment)
+            investments.append(investment)
         }
     }
 }
