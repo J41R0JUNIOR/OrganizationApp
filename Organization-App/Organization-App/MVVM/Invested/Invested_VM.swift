@@ -72,11 +72,10 @@ class Invested_VM {
     internal func total() -> Double {
         var totalValue = 0.0
         
-        // Soma para cada tipo de investimento
-        for type in [TypeInvestment.stock, .reit, .crypto] {
+        for type in TypeInvestment.allCases {
             if let investments = getInvestments(for: type)?.wrappedValue {
                 for investment in investments {
-                    totalValue += investment.value * Double((investment.qtd ?? 1)) 
+                    totalValue += investment.value * Double((investment.qtd ?? 1))
                 }
             }
         }

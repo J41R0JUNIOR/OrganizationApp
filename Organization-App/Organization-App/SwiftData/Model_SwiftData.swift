@@ -36,7 +36,7 @@ class Investment {
     }
 }
 
-enum TypeInvestment: Codable {
+enum TypeInvestment: Codable, CaseIterable {
     case crypto
     case stock
     case reit
