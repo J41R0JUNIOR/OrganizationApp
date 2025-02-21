@@ -9,16 +9,15 @@ import SwiftUI
 import SwiftData
 
 struct InvestedView: View {
-    @State private var investments: [Investment] = Manager_SwiftData.shared.user?.investment ?? []
-    
+
     var body: some View {
         VStack {
             List {
-                ForEach(investments, id: \.id) { investment in
+                ForEach(Manager_SwiftData.shared.user?.investment ?? [], id: \.id) { investment in
                     HStack {
                         Text(investment.identifier)
                         Spacer()
-                        Text("$\(investment.value, specifier: "%.2f")")
+                        Text("R$\(investment.value, specifier: "%.2f")")
                     }
                 }
                 .onMove(perform: moveInvestment)
@@ -38,7 +37,7 @@ struct InvestedView: View {
                 Button("Remove All") {
                     Task {
                         await Manager_SwiftData.shared.deleteAll()
-                        investments.removeAll()
+                        Manager_SwiftData.shared.user?.investment?.removeAll()
                     }
                 }
             }
@@ -46,14 +45,14 @@ struct InvestedView: View {
     }
     
     private func moveInvestment(from source: IndexSet, to destination: Int) {
-        investments.move(fromOffsets: source, toOffset: destination)
+        Manager_SwiftData.shared.user?.investment?.move(fromOffsets: source, toOffset: destination)
     }
     
     private func addMockInvestment(investment: Investment) {
         Task {
             
             try await Manager_SwiftData.shared.addInvestment(investment)
-            investments.append(investment)
+            Manager_SwiftData.shared.user?.investment?.append(investment)
         }
     }
 }

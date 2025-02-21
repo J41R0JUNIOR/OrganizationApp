@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+@MainActor
 @Observable
 class Manager_SwiftData {
     static var shared: Manager_SwiftData = .init()
