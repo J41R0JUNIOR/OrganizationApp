@@ -22,6 +22,8 @@ struct Invested_View: View {
             
             Spacer()
             
+            Text("Total: R$\(vm.total(), specifier: "%.2f")")
+            
             HStack {
                 Menu("MOCK INVESTMENT") {
                     Button("Stock") { vm.addMockInvestment(investment: Investment(type: .stock, identifier: "BBAS3", value: 28.7, qtd: 10)) }

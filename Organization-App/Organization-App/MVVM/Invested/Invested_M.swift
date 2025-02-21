@@ -9,4 +9,5 @@ import Foundation
 
 @Observable
 class Invested_M {
+    
 }
