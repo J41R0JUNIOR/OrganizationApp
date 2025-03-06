@@ -25,10 +25,10 @@ struct Invested_View: View {
             Text("Total: R$\(vm.total(), specifier: "%.2f")")
             
             HStack {
-                Menu("MOCK INVESTMENT") {
-                    Button("Stock") { vm.addMockInvestment(investment: Investment(type: .stock, identifier: "BBAS3", value: 28.7, qtd: 10)) }
-                    Button("Reit") { vm.addMockInvestment(investment: Investment(type: .reit, identifier: "XPML11", value: 109.76)) }
-                    Button("Crypto") { vm.addMockInvestment(investment: Investment(type: .crypto, identifier: "BTC", value: 600000, qtd: 1)) }
+                Menu("ADD INVESTMENT") {
+                    Button("Stock") { vm.addMockInvestment(investment: Investment(type: .stock, identifier: "BBAS3", value: 28.7, appliedValue: 10, qtd: 10)) }
+                    Button("Reit") { vm.addMockInvestment(investment: Investment(type: .reit, identifier: "XPML11", value: 109.76, appliedValue: 10)) }
+                    Button("Crypto") { vm.addMockInvestment(investment: Investment(type: .crypto, identifier: "BTC", value: 600000, appliedValue: 10, qtd: 1)) }
                 }
                 .buttonStyle(.borderedProminent)
                 

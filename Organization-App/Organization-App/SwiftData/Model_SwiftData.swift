@@ -27,12 +27,14 @@ class Investment {
     var type: TypeInvestment
     var identifier: String
     var value: Double
+    var appliedValue: Double
     var qtd: Int?
 
-    init(type: TypeInvestment, identifier: String, value: Double, qtd: Int? = 1) {
+    init(type: TypeInvestment, identifier: String, value: Double, appliedValue: Double, qtd: Int? = 1) {
         self.identifier = identifier
         self.type = type
         self.value = value
+        self.appliedValue = appliedValue
     }
 }
 

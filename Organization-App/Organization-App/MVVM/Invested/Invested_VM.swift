@@ -51,7 +51,7 @@ class Invested_VM {
         HStack {
             Text(investment.identifier)
             Spacer()
-            Text("R$\(investment.value, specifier: "%.2f")")
+            Text("R$\(investment.appliedValue, specifier: "%.2f")")
         }
     }
     
@@ -75,7 +75,7 @@ class Invested_VM {
         for type in TypeInvestment.allCases {
             if let investments = getInvestments(for: type)?.wrappedValue {
                 for investment in investments {
-                    totalValue += investment.value * Double((investment.qtd ?? 1))
+                    totalValue += investment.appliedValue * Double((investment.qtd ?? 1))
                 }
             }
         }
