@@ -29,7 +29,6 @@ struct CustomChart_C: View {
                 ForEach(getSlices(), id: \.0.id) { invested, startAngle, endAngle in
                     PieSliceShape(startAngle: startAngle, endAngle: endAngle)
                         .fill(invested.color)
-                    //                        .stroke(Color.white, lineWidth: 2)
                         .scaleEffect(selectedType == nil || selectedType == invested.type ? 1 : 0.8)
                         .animation(.spring(), value: selectedType)
                         .onTapGesture {
@@ -39,7 +38,6 @@ struct CustomChart_C: View {
                 
                 if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
                     Text("\(Int(invested.quantity))%")
-                    //                        .foregroundStyle(invested.color)
                         .foregroundStyle(.white)
                         .font(.headline)
                         .padding()
@@ -140,7 +138,6 @@ struct LegendGridView: View {
                 }
             }
             .scaledToFit()
-//            .padding(.horizontal)
         }
         .scaledToFit()
     }
@@ -153,10 +150,6 @@ struct LegendGridView: View {
         .init(type: "CDB", quantity: 12, color: .green),
         .init(type: "Stocks", quantity: 50, color: .orange),
         .init(type: "NFT", quantity: 30, color: .purple),
-        .init(type: "Bitcoin", quantity: 10, color: .red),
-        .init(type: "Bitcoin", quantity: 10, color: .red),
-  
-        
     ]))
 }
 

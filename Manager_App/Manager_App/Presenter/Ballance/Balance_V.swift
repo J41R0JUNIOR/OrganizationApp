@@ -10,7 +10,6 @@ import SwiftUI
 struct Balance_V: View {
     
     var body: some View {
-        
         VStack{
             
             MainBalance_C(total: .constant(123.2), income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
@@ -23,7 +22,6 @@ struct Balance_V: View {
                     .init(type: "CDB", quantity: 12, color: .green),
                     .init(type: "Stocks", quantity: 50, color: .orange),
                     .init(type: "NFT", quantity: 30, color: .purple),
-                    
                 ]))
             }
         }

@@ -51,7 +51,7 @@ class Routes {
   
     func createMainModule() -> UIViewController {
        
-        let viewController = UIHostingController(rootView: Content_View().navigationBarBackButtonHidden())
+        let viewController = UIHostingController(rootView: Content_V().navigationBarBackButtonHidden())
         return viewController
     }
 }

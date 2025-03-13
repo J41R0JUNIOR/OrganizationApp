@@ -7,25 +7,34 @@
 
 import SwiftUI
 
-struct Content_View: View {
+struct Content_V: View {
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor.lightPurple
+    }
+    
     var body: some View {
         TabView {
             Balance_V()
                 .tabItem {
                     Image(systemName: "house")
-                    Text("Ballance")
+                    Text("Balance")
                 }
             
-            Text("Settings")
+            Settings_V()
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
         }
-        .tint(.mainPurple) 
+        .tint(Color.mainPurple)
     }
 }
 
 #Preview {
-    Content_View()
+    Content_V()
+}
+
+
+#Preview {
+    Content_V()
 }
