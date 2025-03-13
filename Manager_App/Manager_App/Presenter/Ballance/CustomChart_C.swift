@@ -16,14 +16,13 @@ struct Invested: Identifiable {
 struct CustomChart_C: View {
     @Binding var data: [Invested]
     @State private var selectedType: String? = nil
-    @State var showLegend: Bool = false
     
     var total: Double {
         data.reduce(0) { $0 + $1.quantity }
     }
     
     var body: some View {
-        VStack {
+        HStack {
             ZStack {
                 
                 ForEach(getSlices(), id: \.0.id) { invested, startAngle, endAngle in
@@ -45,17 +44,9 @@ struct CustomChart_C: View {
                 }
             }
             .aspectRatio(1, contentMode: .fit)
-            .padding()
             
              LegendGridView(data: data)
-           
-            
-            .padding(.horizontal)
 
-            .onTapGesture {
-                showLegend.toggle()
-                
-            }
             .background(Color.clear)
             .buttonStyle(.borderless)
         }
@@ -112,7 +103,7 @@ struct LegendGridView: View {
     let data: [Invested]
     
     let columns = [
-        GridItem(),GridItem(),GridItem()
+        GridItem(),GridItem()
     ]
     
     var body: some View {
