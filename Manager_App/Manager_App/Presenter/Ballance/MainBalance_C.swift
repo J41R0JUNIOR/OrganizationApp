@@ -19,8 +19,7 @@ struct MainBalance_C: View {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.main)
 //                .stroke(Color.white, lineWidth: 2)
-                .shadow(radius: 10)
-
+//                .shadow(radius: 10)
    
             VStack {
                 Text("\(currency.rawValue)\(String(format: "%.2f", total))")

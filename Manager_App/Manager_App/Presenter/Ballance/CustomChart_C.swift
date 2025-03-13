@@ -9,6 +9,7 @@ import SwiftUI
 struct Invested: Identifiable {
     var id: UUID = .init()
     var type: String
+    var symbol: Currency = .dollar
     var quantity: Double
     var color: Color
 }
@@ -25,7 +26,7 @@ struct CustomChart_C: View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.main)
-                .opacity(0.1)
+//                .opacity(0.1)
             
             HStack {
                 ZStack {
@@ -40,7 +41,7 @@ struct CustomChart_C: View {
                     }
                     
                     if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
-                        Text("\(invested.type) \(Int(invested.quantity))%")
+                        Text("\(invested.type) \(invested.symbol.rawValue)\(Int(invested.quantity))")
                             .foregroundStyle(.white)
                             .font(.headline)
                             .padding()
@@ -115,7 +116,7 @@ struct LegendGridView: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.main)
+                .fill(Color.third)
             
             LazyVGrid(columns: columns, spacing: 1) {
                 ForEach(data) { item in
@@ -130,7 +131,7 @@ struct LegendGridView: View {
                             .fontWeight(.bold)
                     }
                     .scaledToFit()
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.main)
                     .padding(8)
                 }
             }
