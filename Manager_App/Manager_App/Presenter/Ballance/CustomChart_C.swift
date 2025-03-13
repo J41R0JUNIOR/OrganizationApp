@@ -6,27 +6,19 @@
 //
 import SwiftUI
 
-struct Invested: Identifiable {
-    var id: UUID = .init()
-    var type: String
-    var symbol: Currency = .dollar
-    var quantity: Double
-    var color: Color
-}
-
 struct CustomChart_C: View {
-    @Binding var data: [Invested]
+    @Binding var data: [Investment]
     @State private var selectedType: String? = nil
     
     var total: Double {
-        data.reduce(0) { $0 + $1.quantity }
+        data.reduce(0) { $0 + $1.value }
     }
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.main)
-//                .opacity(0.1)
+                .fill(Color.main1)
+//                .opacity(0.5)
             
             HStack {
                 ZStack {
@@ -41,30 +33,27 @@ struct CustomChart_C: View {
                     }
                     
                     if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
-                        Text("\(invested.type) \(invested.symbol.rawValue)\(Int(invested.quantity))")
-                            .foregroundStyle(.white)
+                        Text("\(invested.type) \(invested.symbol.rawValue)\(Int(invested.value))")
+                            .foregroundStyle(.main3)
                             .font(.headline)
                             .padding()
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.main.opacity(0.9)))
+                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.backGround.opacity(0.9)))
                     }
                 }
                 .aspectRatio(1, contentMode: .fit)
                 
                 LegendGridView(data: data)
-                
-                    .background(Color.clear)
-                    .buttonStyle(.borderless)
             }
             .padding()
         }
     }
     
-    func getSlices() -> [(Invested, Angle, Angle)] {
-        var slices: [(Invested, Angle, Angle)] = []
+    func getSlices() -> [(Investment, Angle, Angle)] {
+        var slices: [(Investment, Angle, Angle)] = []
         var startAngle = Angle.degrees(0)
         
         for invested in data {
-            let endAngle = startAngle + Angle.degrees((invested.quantity / total) * 360)
+            let endAngle = startAngle + Angle.degrees((invested.value / total) * 360)
             slices.append((invested, startAngle, endAngle))
             startAngle = endAngle
         }
@@ -107,7 +96,7 @@ struct PieSliceShape: Shape {
 
 
 struct LegendGridView: View {
-    let data: [Invested]
+    let data: [Investment]
     
     let columns = [
         GridItem(),GridItem()
@@ -115,8 +104,8 @@ struct LegendGridView: View {
     
     var body: some View {
         ZStack{
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color.third)
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.main3)
             
             LazyVGrid(columns: columns, spacing: 1) {
                 ForEach(data) { item in
@@ -131,8 +120,8 @@ struct LegendGridView: View {
                             .fontWeight(.bold)
                     }
                     .scaledToFit()
-                    .foregroundStyle(.main)
-                    .padding(8)
+                    .foregroundStyle(.backGround2)
+//                    .padding(8)
                 }
             }
             .scaledToFit()
@@ -143,11 +132,11 @@ struct LegendGridView: View {
 
 #Preview {
     CustomChart_C(data: .constant([
-        .init(type: "BTC", quantity: 10, color: .red),
-        .init(type: "ETH", quantity: 40, color: .blue),
-        .init(type: "CDB", quantity: 12, color: .green),
-        .init(type: "Stocks", quantity: 50, color: .orange),
-        .init(type: "NFT", quantity: 30, color: .purple),
+        .init(type: "BTC", value: 10, color: .red),
+        .init(type: "ETH", value: 40, color: .blue),
+        .init(type: "CDB", value: 12, color: .green),
+        .init(type: "Stocks", value: 50, color: .orange),
+        .init(type: "NFT", value: 30, color: .purple),
     ]))
 }
 

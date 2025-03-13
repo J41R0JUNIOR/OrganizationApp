@@ -8,21 +8,23 @@
 import SwiftUI
 
 struct MainBalance_C: View {
-    
-    @Binding var total: Double
+    @Binding var data: [Investment]
     @Binding var income: Double
     @Binding var outcome: Double
     @Binding var currency: Currency
     
+    @State var total: Double?
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.main)
-//                .stroke(Color.white, lineWidth: 2)
+                .fill(Color.backGround2)
+//                .stroke(Color.main2, lineWidth: 2)
 //                .shadow(radius: 10)
+//                .ignoresSafeArea()
    
             VStack {
-                Text("\(currency.rawValue)\(String(format: "%.2f", total))")
+                Text("\(currency.rawValue)\(String(format: "%.2f", total ?? 0))")
                     .font(.title)
                     .bold()
                 
@@ -48,19 +50,30 @@ struct MainBalance_C: View {
 
         }
         .scaledToFit()
+        .task {
+            total = calcTot()
+        }
+    }
+    
+    func calcTot() -> Double {
+        var tot = 0.0
+        
+        for i in data {
+            tot += Double(i.value)
+        }
+        return tot
     }
 }
 
-
-
 #Preview {
-    MainBalance_C(total: .constant(123.2), income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
+    MainBalance_C(data: .constant([
+        .init(type: "Crypto", value: 10, color: .red),
+        .init(type: "CDB", value: 12, color: .green),
+        .init(type: "Stocks", value: 50, color: .orange),
+        .init(type: "NFT", value: 30, color: .purple),
+    ]), income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
 }
 
 #Preview {
     Balance_V()
-}
-
-enum Currency: String {
-    case dollar = "$"
 }

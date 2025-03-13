@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Content_V: View {
     init() {
-        UITabBar.appearance().unselectedItemTintColor = UIColor.second
+        UITabBar.appearance().unselectedItemTintColor = UIColor.backGround2
     }
     
     var body: some View {
@@ -26,14 +26,10 @@ struct Content_V: View {
                     Text("Settings")
                 }
         }
-        .tint(Color.main)
+        .foregroundStyle(.main3)
+        .tint(Color.main3)
     }
 }
-
-#Preview {
-    Content_V()
-}
-
 
 #Preview {
     Content_V()
