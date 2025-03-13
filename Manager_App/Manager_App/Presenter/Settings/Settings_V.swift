@@ -12,7 +12,7 @@ struct Settings_V: View {
 //        VStack {
 //            
 //        }.background(Color.backGroundPurple)
-        Color.backGroundPurple
+        Color.backGround
             .ignoresSafeArea()
     }
 }

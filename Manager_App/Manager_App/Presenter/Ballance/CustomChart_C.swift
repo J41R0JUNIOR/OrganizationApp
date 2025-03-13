@@ -22,33 +22,39 @@ struct CustomChart_C: View {
     }
     
     var body: some View {
-        HStack {
-            ZStack {
-                
-                ForEach(getSlices(), id: \.0.id) { invested, startAngle, endAngle in
-                    PieSliceShape(startAngle: startAngle, endAngle: endAngle)
-                        .fill(invested.color)
-                        .scaleEffect(selectedType == nil || selectedType == invested.type ? 1 : 0.8)
-                        .animation(.spring(), value: selectedType)
-                        .onTapGesture {
-                            selectedType = selectedType == invested.type ? nil : invested.type
-                        }
-                }
-                
-                if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
-                    Text("\(Int(invested.quantity))%")
-                        .foregroundStyle(.white)
-                        .font(.headline)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.mainPurple.opacity(0.9)))
-                }
-            }
-            .aspectRatio(1, contentMode: .fit)
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.main)
+                .opacity(0.1)
             
-             LegendGridView(data: data)
-
-            .background(Color.clear)
-            .buttonStyle(.borderless)
+            HStack {
+                ZStack {
+                    ForEach(getSlices(), id: \.0.id) { invested, startAngle, endAngle in
+                        PieSliceShape(startAngle: startAngle, endAngle: endAngle)
+                            .fill(invested.color)
+                            .scaleEffect(selectedType == nil || selectedType == invested.type ? 1 : 0.8)
+                            .animation(.spring(), value: selectedType)
+                            .onTapGesture {
+                                selectedType = selectedType == invested.type ? nil : invested.type
+                            }
+                    }
+                    
+                    if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
+                        Text("\(invested.type) \(Int(invested.quantity))%")
+                            .foregroundStyle(.white)
+                            .font(.headline)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.main.opacity(0.9)))
+                    }
+                }
+                .aspectRatio(1, contentMode: .fit)
+                
+                LegendGridView(data: data)
+                
+                    .background(Color.clear)
+                    .buttonStyle(.borderless)
+            }
+            .padding()
         }
     }
     
@@ -109,7 +115,7 @@ struct LegendGridView: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.mainPurple)
+                .fill(Color.main)
             
             LazyVGrid(columns: columns, spacing: 1) {
                 ForEach(data) { item in
@@ -136,8 +142,8 @@ struct LegendGridView: View {
 
 #Preview {
     CustomChart_C(data: .constant([
-        .init(type: "Bitcoin", quantity: 10, color: .red),
-        .init(type: "Ethereum", quantity: 40, color: .blue),
+        .init(type: "BTC", quantity: 10, color: .red),
+        .init(type: "ETH", quantity: 40, color: .blue),
         .init(type: "CDB", quantity: 12, color: .green),
         .init(type: "Stocks", quantity: 50, color: .orange),
         .init(type: "NFT", quantity: 30, color: .purple),

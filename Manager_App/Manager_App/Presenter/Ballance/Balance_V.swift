@@ -17,8 +17,7 @@ struct Balance_V: View {
             ScrollView(.vertical) {
                 
                 CustomChart_C(data: .constant([
-                    .init(type: "Bitcoin", quantity: 10, color: .red),
-                    .init(type: "Ethereum", quantity: 40, color: .blue),
+                    .init(type: "Crypto", quantity: 10, color: .red),
                     .init(type: "CDB", quantity: 12, color: .green),
                     .init(type: "Stocks", quantity: 50, color: .orange),
                     .init(type: "NFT", quantity: 30, color: .purple),
@@ -26,7 +25,7 @@ struct Balance_V: View {
             }
         }
         .padding(.horizontal)
-        .background(Color.backGroundPurple)
+        .background(Color.backGround)
     }
 }
 

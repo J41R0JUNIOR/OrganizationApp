@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Content_V: View {
     init() {
-        UITabBar.appearance().unselectedItemTintColor = UIColor.lightPurple
+        UITabBar.appearance().unselectedItemTintColor = UIColor.second
     }
     
     var body: some View {
@@ -26,7 +26,7 @@ struct Content_V: View {
                     Text("Settings")
                 }
         }
-        .tint(Color.mainPurple)
+        .tint(Color.main)
     }
 }
 

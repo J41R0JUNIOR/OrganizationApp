@@ -17,7 +17,7 @@ struct MainBalance_C: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.mainPurple)
+                .fill(Color.main)
 //                .stroke(Color.white, lineWidth: 2)
                 .shadow(radius: 10)
 
