@@ -39,7 +39,6 @@ struct Balance_V: View {
                 Button {
                     SwiftData_Manager.shared.addInvestment(investment: .init(identifier: "NoName", symbol: Currency.dollar.rawValue, type: TypesInvesment.commodities.rawValue, value: 10))
                     
-                    SwiftData_Manager.shared.fetch()
                 } label: {
                     Image(systemName: "plus.circle.fill")
                         .font(.largeTitle)
