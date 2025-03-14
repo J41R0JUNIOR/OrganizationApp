@@ -10,58 +10,116 @@ struct CustomChart_C: View {
     @Binding var data: [Investment]
     @State private var selectedType: String? = nil
     
+    var groupedInvestments: [(type: String, totalValue: Double, color: String)] {
+        let groupedDict = Dictionary(grouping: data) { $0.type }
+        
+        return groupedDict.map { type, investments in
+            let totalValue = investments.reduce(0) { $0 + $1.value }
+            
+            switch TypesInvesment(rawValue: type)! {
+                case .actions:
+                    return (type, totalValue, Color.blue.toHex())
+                case .bonds:
+                    return (type, totalValue, Color.red.toHex())
+                case .stocks:
+                    return (type, totalValue, Color.green.toHex())
+                case .commodities:
+                    return (type, totalValue, Color.yellow.toHex())
+                case .cryptos:
+                    return (type, totalValue, Color.orange.toHex())
+            }
+        }
+        .sorted { $0.type < $1.type } 
+    }
+    
     var total: Double {
-        data.reduce(0) { $0 + $1.value }
+        groupedInvestments.reduce(0) { $0 + $1.totalValue }
     }
     
     var body: some View {
-        if !data.isEmpty {
+        if !groupedInvestments.isEmpty {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.main1)
-                //                .opacity(0.5)
                 
                 HStack {
                     ZStack {
-                        ForEach(getSlices(), id: \.0.id) { invested, startAngle, endAngle in
+                        ForEach(getSlices(), id: \.0) { type, startAngle, endAngle, color in
                             PieSliceShape(startAngle: startAngle, endAngle: endAngle)
-                                .fill(Color(hex: invested.colorHex))
-                                .scaleEffect(selectedType == nil || selectedType == invested.type ? 1 : 0.8)
+                                .fill(Color(hex: color))
+                                .scaleEffect(selectedType == nil || selectedType == type ? 1 : 0.8)
                                 .animation(.spring(), value: selectedType)
                                 .onTapGesture {
-                                    selectedType = selectedType == invested.type ? nil : invested.type
+                                    selectedType = selectedType == type ? nil : type
                                 }
                         }
                         
-                        if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
-                            Text("\(invested.type) \(invested.symbol)\(Int(invested.value))")
-                                .foregroundStyle(.main3)
-                                .font(.headline)
-                                .padding()
-                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.backGround.opacity(0.9)))
+                        if let selected = selectedType {
+                            if let category = groupedInvestments.first(where: { $0.type == selected }) {
+                                Text("\(category.type) \(Int(category.totalValue))")
+                                    .foregroundStyle(.main3)
+                                    .font(.headline)
+                                    .padding()
+                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.backGround.opacity(0.9)))
+                            }
                         }
                     }
                     .aspectRatio(1, contentMode: .fit)
                     
-                    LegendGridView(data: data)
+                    LegendGridView(data: groupedInvestments)
                 }
                 .padding()
             }
         }
     }
     
-    func getSlices() -> [(Investment, Angle, Angle)] {
-        var slices: [(Investment, Angle, Angle)] = []
+    func getSlices() -> [(String, Angle, Angle, String)] {
+        var slices: [(String, Angle, Angle, String)] = []
         var startAngle = Angle.degrees(0)
         
-        for invested in data {
-            let endAngle = startAngle + Angle.degrees((invested.value / total) * 360)
-            slices.append((invested, startAngle, endAngle))
+        for investment in groupedInvestments {
+            let endAngle = startAngle + Angle.degrees((investment.totalValue / total) * 360)
+            slices.append((investment.type, startAngle, endAngle, investment.color))
             startAngle = endAngle
         }
         return slices
     }
 }
+
+struct LegendGridView: View {
+    let data: [(type: String, totalValue: Double, color: String)]
+    
+    let columns = [
+        GridItem(), GridItem()
+    ]
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.main3)
+            
+            LazyVGrid(columns: columns, spacing: 1) {
+                ForEach(data, id: \.type) { item in
+                    HStack {
+                        Rectangle()
+                            .frame(width: 12, height: 12)
+                            .foregroundColor(Color(hex: item.color))
+                            .cornerRadius(2)
+                        
+                        Text(item.type)
+                            .font(.caption)
+                            .fontWeight(.bold)
+                    }
+                    .scaledToFit()
+                    .foregroundStyle(.backGround2)
+                }
+            }
+            .scaledToFit()
+        }
+        .scaledToFit()
+    }
+}
+
 
 struct PieSliceShape: Shape {
     var startAngle: Angle
@@ -97,40 +155,6 @@ struct PieSliceShape: Shape {
 }
 
 
-struct LegendGridView: View {
-    let data: [Investment]
-    
-    let columns = [
-        GridItem(),GridItem()
-    ]
-    
-    var body: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.main3)
-            
-            LazyVGrid(columns: columns, spacing: 1) {
-                ForEach(data) { item in
-                    HStack {
-                        Rectangle()
-                            .frame(width: 12, height: 12)
-                            .foregroundColor(Color(hex: item.colorHex))
-                            .cornerRadius(2)
-                        
-                        Text(item.type)
-                            .font(.caption)
-                            .fontWeight(.bold)
-                    }
-                    .scaledToFit()
-                    .foregroundStyle(.backGround2)
-//                    .padding(8)
-                }
-            }
-            .scaledToFit()
-        }
-        .scaledToFit()
-    }
-}
 
 //#Preview {
 //    CustomChart_C(data: .constant([

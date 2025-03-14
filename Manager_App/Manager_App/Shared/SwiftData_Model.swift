@@ -29,19 +29,19 @@ class User {
 @Model
 class Investment: Identifiable {
     var id: UUID
+    var identifier: String
     var type: String
     var symbol: String
     var value: Double
     var qtd: Double?
-    var colorHex: String
     
-    init(type: String, symbol: String, value: Double, qtd: Double? = nil, color: String) {
+    init(identifier: String, symbol: String, type: String, value: Double, qtd: Double? = nil) {
         self.id = .init()
+        self.identifier = identifier
         self.type = type
         self.symbol = symbol
         self.value = value
         self.qtd = qtd
-        self.colorHex = color
     }
 }
 
@@ -75,4 +75,12 @@ class Report: Identifiable {
 
 struct DashboardItem: Identifiable, Equatable {
     var id: String
+}
+
+enum TypesInvesment: String, CaseIterable {
+    case actions
+    case stocks
+    case bonds
+    case commodities
+    case cryptos
 }

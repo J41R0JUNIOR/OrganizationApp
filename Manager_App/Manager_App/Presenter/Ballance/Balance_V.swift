@@ -37,7 +37,7 @@ struct Balance_V: View {
             HStack {
                 
                 Button {
-                    SwiftData_Manager.shared.addInvestment(investment: .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()))
+                    SwiftData_Manager.shared.addInvestment(investment: .init(identifier: "NoName", symbol: Currency.dollar.rawValue, type: TypesInvesment.bonds.rawValue, value: 10))
                     
                     SwiftData_Manager.shared.fetch()
                 } label: {

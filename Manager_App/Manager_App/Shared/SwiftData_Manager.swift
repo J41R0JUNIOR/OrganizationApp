@@ -43,8 +43,7 @@ class SwiftData_Manager {
         if let user = user {
             user.investments.append(investment)
             save(user: user)
-        }
-        
+        } 
         fetch()
     }
     
@@ -72,7 +71,13 @@ class SwiftData_Manager {
         if let context = context {
             do {
                 let data = try context.fetch(descriptor)
-                user = data.first
+                
+                self.user = data.first
+                
+                if user == nil {
+                    save(user: .init(name: "", investments: [], monthReports: []))
+                }
+                
     
             } catch {
                 print(error)
