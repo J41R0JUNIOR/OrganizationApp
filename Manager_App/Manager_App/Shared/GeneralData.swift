@@ -23,8 +23,16 @@ struct Investment: Identifiable {
 }
 
 struct MonthReport {
-    var month: String
-    var report: [String: Double]
+    var month: Date
+    var report: [Report]
+}
+
+struct Report: Identifiable {
+    var id: UUID = .init()
+    var date: Date
+    var value: Double
+    var name: String?
+    var symbol: Currency = .dollar
 }
 
 struct DashboardItem: Identifiable, Equatable {

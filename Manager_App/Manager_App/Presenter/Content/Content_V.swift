@@ -25,7 +25,14 @@ struct Content_V: View {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
+            
+            Reports_V()
+                .tabItem {
+                    Image(systemName: "list.bullet")
+                    Text("Reports")
+                }
         }
+        
         .foregroundStyle(.main3)
         .tint(Color.main3)
     }

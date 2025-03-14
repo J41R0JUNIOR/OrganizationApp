@@ -19,10 +19,7 @@ struct MainBalance_C: View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.backGround2)
-//                .stroke(Color.main2, lineWidth: 2)
-//                .shadow(radius: 10)
-//                .ignoresSafeArea()
-   
+      
             VStack {
                 Text("\(currency.rawValue)\(String(format: "%.2f", total ?? 0))")
                     .font(.title)

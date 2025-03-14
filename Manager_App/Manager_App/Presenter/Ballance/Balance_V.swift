@@ -22,8 +22,7 @@ struct Balance_V: View {
     
     @State private var dashItems: [DashboardItem] = [
         .init(id: "chart"),
-
-            .init(id: "chart2"),
+        .init(id: "chart1"),
     ]
     
     @State var draggedItem: DashboardItem?
@@ -63,7 +62,7 @@ struct Balance_V: View {
             CustomChart_C(data: $data)
         default:
             CustomChart_C(data: $data2)
-            //            EmptyView()
+//                        EmptyView()
         }
     }
 }
