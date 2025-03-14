@@ -17,8 +17,7 @@ struct CustomChart_C: View {
             let totalValue = investments.reduce(0) { $0 + $1.value }
             
             switch TypesInvesment(rawValue: type)! {
-                case .actions:
-                    return (type, totalValue, Color.blue.toHex())
+
                 case .bonds:
                     return (type, totalValue, Color.red.toHex())
                 case .stocks:
@@ -27,6 +26,8 @@ struct CustomChart_C: View {
                     return (type, totalValue, Color.yellow.toHex())
                 case .cryptos:
                     return (type, totalValue, Color.orange.toHex())
+                case .reits:
+                    return (type, totalValue, Color.blue.toHex())
             }
         }
         .sorted { $0.type < $1.type } 
@@ -53,7 +54,11 @@ struct CustomChart_C: View {
                                     selectedType = selectedType == type ? nil : type
                                 }
                         }
-                        
+                    }
+                    .aspectRatio(1, contentMode: .fit)
+                    
+                    VStack {
+                        Spacer()
                         if let selected = selectedType {
                             if let category = groupedInvestments.first(where: { $0.type == selected }) {
                                 Text("\(category.type) \(Int(category.totalValue))")
@@ -63,10 +68,9 @@ struct CustomChart_C: View {
                                     .background(RoundedRectangle(cornerRadius: 10).fill(Color.backGround.opacity(0.9)))
                             }
                         }
+                        
+                        LegendGridView(data: groupedInvestments)
                     }
-                    .aspectRatio(1, contentMode: .fit)
-                    
-                    LegendGridView(data: groupedInvestments)
                 }
                 .padding()
             }
@@ -153,18 +157,6 @@ struct PieSliceShape: Shape {
         return path
     }
 }
-
-
-
-//#Preview {
-//    CustomChart_C(data: .constant([
-//        .init(type: "BTC", value: 10, color: .red),
-//        .init(type: "ETH", value: 40, color: .blue),
-//        .init(type: "CDB", value: 12, color: .green),
-//        .init(type: "Stocks", value: 50, color: .orange),
-//        .init(type: "NFT", value: 30, color: .purple),
-//    ]))
-//}
 
 #Preview {
     Balance_V()

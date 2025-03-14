@@ -12,8 +12,22 @@ struct Settings_V: View {
 //        VStack {
 //            
 //        }.background(Color.backGroundPurple)
-        Color.backGround
-            .ignoresSafeArea()
+        ZStack{
+            Color.backGround
+                .ignoresSafeArea()
+            
+            VStack {
+                
+                Button {
+                    SwiftData_Manager.shared.removeAllInvestments()
+                } label: {
+                    Image(systemName: "trash.fill")
+                    Text("Restore Default")
+//                        .font(.largeTitle)
+                        .foregroundStyle(.main3)
+                }
+            }
+        }
     }
 }
 

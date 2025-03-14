@@ -37,19 +37,11 @@ struct Balance_V: View {
             HStack {
                 
                 Button {
-                    SwiftData_Manager.shared.addInvestment(investment: .init(identifier: "NoName", symbol: Currency.dollar.rawValue, type: TypesInvesment.bonds.rawValue, value: 10))
+                    SwiftData_Manager.shared.addInvestment(investment: .init(identifier: "NoName", symbol: Currency.dollar.rawValue, type: TypesInvesment.commodities.rawValue, value: 10))
                     
                     SwiftData_Manager.shared.fetch()
                 } label: {
                     Image(systemName: "plus.circle.fill")
-                        .font(.largeTitle)
-                        .foregroundStyle(.main3)
-                }
-                
-                Button {
-                    SwiftData_Manager.shared.removeAllInvestments()
-                } label: {
-                    Image(systemName: "trash.fill")
                         .font(.largeTitle)
                         .foregroundStyle(.main3)
                 }
