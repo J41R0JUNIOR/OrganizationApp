@@ -8,13 +8,8 @@
 import SwiftUI
 
 struct Balance_V: View {
-    @State var data: [Investment] = [
-//        .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()),
-//        .init(type: "Stock", symbol: Currency.dollar.rawValue, value: 10, color: Color.blue.toHex())
+    @State var data: [Investment] = []
 
-    ]
-
-    
     @State private var dashItems: [DashboardItem] = [
         .init(id: "chart"),
     ]
@@ -31,7 +26,6 @@ struct Balance_V: View {
                 LazyVStack() {
                     ForEach(dashItems) { item in
                         dashboardView(for: item)
-//                            .padding(.horizontal)
                             .onDrag {
                                 self.draggedItem = item
                                 return NSItemProvider()
@@ -60,10 +54,7 @@ struct Balance_V: View {
         }
         .padding()
         .background(Color.backGround)
-//        .onAppear {
-//            SwiftData_Manager.shared.save(user: .init(name: "Jairo", investments: [        .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()),
-//                                                                                           .init(type: "Stock", symbol: Currency.dollar.rawValue, value: 10, color: Color.blue.toHex())], monthReports: []))
-//        }
+
         .task {
             SwiftData_Manager.shared.fetch(onCompletition: { result in
                 switch result {

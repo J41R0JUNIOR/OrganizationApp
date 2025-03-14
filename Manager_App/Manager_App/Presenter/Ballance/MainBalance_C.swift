@@ -11,9 +11,12 @@ struct MainBalance_C: View {
     @Binding var data: [Investment]
     @Binding var income: Double
     @Binding var outcome: Double
+//    @Binding var monthReport: MonthReport <- use this instead of income and outcome
     @Binding var currency: Currency
     
-    @State var total: Double?
+    var total: Double {
+          data.reduce(0) { $0 + $1.value }
+      }
     
     var body: some View {
         ZStack {
@@ -21,7 +24,7 @@ struct MainBalance_C: View {
                 .fill(Color.backGround2)
       
             VStack {
-                Text("\(currency.rawValue)\(String(format: "%.2f", total ?? 0))")
+                Text("\(currency.rawValue)\(String(format: "%.2f", total))")
                     .font(.title)
                     .bold()
                 
@@ -47,9 +50,6 @@ struct MainBalance_C: View {
 
         }
         .scaledToFit()
-        .task {
-            total = calcTot()
-        }
     }
     
     func calcTot() -> Double {
