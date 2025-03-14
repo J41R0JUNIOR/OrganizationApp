@@ -33,18 +33,7 @@ struct Content_V: View {
                 }
         }
         .task {
-            SwiftData_Manager.shared.fetch { result in
-                switch result {
-                case .success(let data):
-                    print("Data fetched: \(data)")
-                    if data.isEmpty {
-                        SwiftData_Manager.shared.save(user: .init(name: "Jaior", investments: [], monthReports: []))
-                    }
-                case .failure(let error):
-                    print("Error fetching data: \(error)")
-                    
-                }
-            }
+            SwiftData_Manager.shared.fetch()
         }
         
         .foregroundStyle(.main3)

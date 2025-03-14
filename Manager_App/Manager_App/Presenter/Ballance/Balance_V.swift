@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct Balance_V: View {
-    @State var data: [Investment] = []
 
     @State private var dashItems: [DashboardItem] = [
         .init(id: "chart"),
@@ -35,35 +34,32 @@ struct Balance_V: View {
                 }
             }
             
-            Button {
-                SwiftData_Manager.shared.addInvestment(investment: .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()))
+            HStack {
                 
-                SwiftData_Manager.shared.fetch(onCompletition: { result in
-                    switch result {
-                    case .success(let investments):
-                        self.data = investments.first?.investments ?? []
-                    case .failure(let error):
-                        print(error)
-                    }
-                })
-            } label: {
-                Image(systemName: "plus.circle.fill")
-                    .font(.largeTitle)
+                Button {
+                    SwiftData_Manager.shared.addInvestment(investment: .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()))
+                    
+                    SwiftData_Manager.shared.fetch()
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.largeTitle)
+                        .foregroundStyle(.main3)
+                }
+                
+                Button {
+                    SwiftData_Manager.shared.removeAllInvestments()
+                } label: {
+                    Image(systemName: "trash.fill")
+                        .font(.largeTitle)
+                        .foregroundStyle(.main3)
+                }
             }
-
         }
         .padding()
         .background(Color.backGround)
 
         .task {
-            SwiftData_Manager.shared.fetch(onCompletition: { result in
-                switch result {
-                case .success(let investments):
-                    self.data = investments.first?.investments ?? []
-                case .failure(let error):
-                    print(error)
-                }
-            })
+            SwiftData_Manager.shared.fetch()
         }
     }
     
@@ -71,9 +67,12 @@ struct Balance_V: View {
     func dashboardView(for item: DashboardItem) -> some View {
         switch item.id {
         case "mainBalance":
-            MainBalance_C(data: $data, income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
+            MainBalance_C(income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
         case "chart":
-            CustomChart_C(data: $data)
+            CustomChart_C(data: Binding(
+                get: { SwiftData_Manager.shared.user?.investments ?? [] },
+                set: { SwiftData_Manager.shared.user?.investments = $0 }
+            ))
         default:
             EmptyView()
         }

@@ -8,11 +8,12 @@
 import Foundation
 import SwiftData
 
-
+@Observable
 class SwiftData_Manager {
     static var shared = SwiftData_Manager()
     var container: ModelContainer?
     var context: ModelContext?
+    var user: User?
    
     
     init() {
@@ -31,7 +32,6 @@ class SwiftData_Manager {
             context.insert(user)
             do {
                 try context.save()
-                print("saved")
             } catch {
                 print("Error saving data: \(error)")
             }
@@ -39,42 +39,50 @@ class SwiftData_Manager {
     }
     
     func addInvestment(investment: Investment) {
-        var user: User? = nil
-        
-        SwiftData_Manager.shared.fetch { result in
-            switch result {
-            case .success(let users):
-                user = users.first
-            case .failure(let error):
-                print(error)
-            }
-        }
         
         if let user = user {
             user.investments.append(investment)
             save(user: user)
         }
         
+        fetch()
+    }
+    
+    func removeAllInvestments() {
+        guard let user = user, let context = context else {
+            return
+        }
+
+        user.investments = []
+
+        do {
+            try context.save()
+        } catch {
+            print("\(error)")
+        }
+
+        fetch()
     }
 
-    func fetch(onCompletition: @escaping (Result<[User], Error>) -> Void) {
+
+
+    func fetch() {
         let descriptor = FetchDescriptor<User>()
         
         if let context = context {
             do {
                 let data = try context.fetch(descriptor)
-                onCompletition(.success(data))
+                user = data.first
+    
             } catch {
-                onCompletition(.failure(error))
+                print(error)
             }
-        } else {
-            onCompletition(.failure(NSError(domain: "ContextError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Context is nil"])))
         }
     }
 
-    func delete(login: User) {
+    func delete(user: User) {
         if let context = context {
-            context.delete(login)
+            context.delete(user)
             do {
                 try context.save()
             } catch {

@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct MainBalance_C: View {
-    @Binding var data: [Investment]
+ 
     @Binding var income: Double
     @Binding var outcome: Double
 //    @Binding var monthReport: MonthReport <- use this instead of income and outcome
     @Binding var currency: Currency
     
     var total: Double {
-          data.reduce(0) { $0 + $1.value }
+        SwiftData_Manager.shared.user?.investments.reduce(0) { $0 + $1.value } ?? 0
       }
     
     var body: some View {
@@ -55,7 +55,7 @@ struct MainBalance_C: View {
     func calcTot() -> Double {
         var tot = 0.0
         
-        for i in data {
+        for i in SwiftData_Manager.shared.user?.investments ?? [] {
             tot += Double(i.value)
         }
         return tot
