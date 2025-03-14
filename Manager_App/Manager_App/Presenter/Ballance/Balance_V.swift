@@ -15,8 +15,12 @@ struct Balance_V: View {
     
     @State var draggedItem: DashboardItem?
     
+    @State var showAddInvestment: Bool = false
+    
     var body: some View {
-        
+        GeometryReader { geometry in
+            
+
         VStack {
             
             dashboardView(for: .init(id: "mainBalance"))
@@ -36,8 +40,16 @@ struct Balance_V: View {
             
             HStack {
                 
+//                Button {
+//                    SwiftData_Manager.shared.addInvestment(investment: .init(identifier: "NoName", symbol: Currency.dollar.rawValue, type: TypesInvesment.reits.rawValue, value: 10))
+//                    
+//                } label: {
+//                    Image(systemName: "plus.circle.fill")
+//                        .font(.largeTitle)
+//                        .foregroundStyle(.main3)
+//                }
                 Button {
-                    SwiftData_Manager.shared.addInvestment(investment: .init(identifier: "NoName", symbol: Currency.dollar.rawValue, type: TypesInvesment.commodities.rawValue, value: 10))
+                    showAddInvestment.toggle()
                     
                 } label: {
                     Image(systemName: "plus.circle.fill")
@@ -46,8 +58,10 @@ struct Balance_V: View {
                 }
             }
         }
+        }
         .padding()
-        .background(Color.backGround)
+        .background(.backGround)
+        .sheet(isPresented: $showAddInvestment, content: {AddInvestment()})
 
         .task {
             SwiftData_Manager.shared.fetch()
@@ -100,8 +114,6 @@ struct DropViewDelegate: DropDelegate {
     }
 }
 
-
-
 #Preview {
-    Content_V()
+    Balance_V()
 }

@@ -61,7 +61,7 @@ struct CustomChart_C: View {
                         Spacer()
                         if let selected = selectedType {
                             if let category = groupedInvestments.first(where: { $0.type == selected }) {
-                                Text("\(category.type) \(Int(category.totalValue))")
+                                Text("\(category.type) $\(Int(category.totalValue))")
                                     .foregroundStyle(.main3)
                                     .font(.headline)
                                     .padding()
@@ -157,6 +157,10 @@ struct PieSliceShape: Shape {
         return path
     }
 }
+
+//#Preview {
+//    CustomChart_C(data: .constant([.init(identifier: "1", symbol: "AAPL", type: TypesInvesment.reits.rawValue, value: 100), .init(identifier: "2", symbol: "MSFT", type: TypesInvesment.stocks.rawValue, value: 200)]))
+//}
 
 #Preview {
     Balance_V()

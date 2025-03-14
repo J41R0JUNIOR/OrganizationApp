@@ -21,7 +21,9 @@ class SwiftData_Manager {
     
     init() {
         do{
-            container = .appContainer
+#warning("Não esquecer trocar pro appContainer")
+
+            container = .testContainer
             if let container {
                 context = ModelContext(container)
             }
