@@ -20,16 +20,16 @@ struct Content_V: View {
                     Text("Balance")
                 }
             
-            Settings_V()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("Settings")
-                }
-            
             Reports_V()
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Reports")
+                }
+            
+            Settings_V()
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("Settings")
                 }
         }
         
