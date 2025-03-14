@@ -10,19 +10,19 @@ import SwiftUI
 struct Reports_V: View {
     @State var reports: [MonthReport] = [
         .init(month: .now, report: [
-            .init(date: Date(), value: 32, name: "BTC"),
-            .init(date: Date(), value: -234),
-            .init(date: Date(), value: 22.5, name: "BBAS3"),
-            .init(date: Date(), value: -33),
-            .init(date: Date(), value: -244.65, name: "BBAS3"),
+            .init(date: Date(), value: 32, name: "BTC", symbol: Currency.dollar.rawValue),
+            .init(date: Date(), value: -234, symbol: Currency.dollar.rawValue),
+            .init(date: Date(), value: 22.5, name: "BBAS3", symbol: Currency.dollar.rawValue),
+            .init(date: Date(), value: -33, symbol: Currency.dollar.rawValue),
+            .init(date: Date(), value: -244.65, name: "BBAS3", symbol: Currency.dollar.rawValue),
         ]),
         .init(month: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, report: [
-            .init(date: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, value: 150, name: "AAPL"),
-            .init(date: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, value: -50),
+            .init(date: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, value: 150, name: "AAPL", symbol: Currency.dollar.rawValue),
+            .init(date: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, value: -50, symbol: Currency.dollar.rawValue),
         ]),
         .init(month: Calendar.current.date(byAdding: .month, value: -2, to: .now)!, report: [
-            .init(date: Calendar.current.date(byAdding: .month, value: -2, to: .now)!, value: 300, name: "TSLA"),
-            .init(date: Calendar.current.date(byAdding: .month, value: -2, to: .now)!, value: -75),
+            .init(date: Calendar.current.date(byAdding: .month, value: -2, to: .now)!, value: 300, name: "TSLA", symbol: Currency.dollar.rawValue),
+            .init(date: Calendar.current.date(byAdding: .month, value: -2, to: .now)!, value: -75, symbol: Currency.dollar.rawValue),
         ]),
     ]
     

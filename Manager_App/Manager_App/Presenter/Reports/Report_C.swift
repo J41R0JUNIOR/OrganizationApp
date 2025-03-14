@@ -21,7 +21,7 @@ struct Report_C: View {
                     Text(report.name ?? "Average")
                         .bold()
                     
-                    Text("\(report.symbol.rawValue) \(String(format: "%.2f", report.value))")
+                    Text("\(report.symbol) \(String(format: "%.2f", report.value))")
                         .font(.caption)
 
                 }
@@ -43,10 +43,10 @@ struct Report_C: View {
        
     
 }
-
-#Preview {
-    Report_C(report: .constant(.init(date: .now, value: 32.55, name: "BTC")))
-}
+//
+//#Preview {
+//    Report_C(report: .constant(.init(date: .now, value: 32.55, name: "BTC")))
+//}
 
 #Preview {
     Reports_V()

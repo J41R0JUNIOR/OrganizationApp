@@ -62,14 +62,14 @@ struct MainBalance_C: View {
     }
 }
 
-#Preview {
-    MainBalance_C(data: .constant([
-        .init(type: "Crypto", value: 10, color: .red),
-        .init(type: "CDB", value: 12, color: .green),
-        .init(type: "Stocks", value: 50, color: .orange),
-        .init(type: "NFT", value: 30, color: .purple),
-    ]), income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
-}
+//#Preview {
+//    MainBalance_C(data: .constant([
+//        .init(type: "Crypto", value: 10, color: .red),
+//        .init(type: "CDB", value: 12, color: .green),
+//        .init(type: "Stocks", value: 50, color: .orange),
+//        .init(type: "NFT", value: 30, color: .purple),
+//    ]), income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
+//}
 
 #Preview {
     Balance_V()

@@ -7,32 +7,70 @@
 
 import Foundation
 import SwiftUICore
-
+import SwiftData
 
 enum Currency: String {
     case dollar = "$"
 }
 
-struct Investment: Identifiable {
-    var id: UUID = .init()
+@Model
+class User {
+    var name: String
+    var investments: [Investment]
+    var monthReports: [MonthReport]
+    
+    init(name: String, investments: [Investment], monthReports: [MonthReport]) {
+        self.name = name
+        self.investments = investments
+        self.monthReports = monthReports
+    }
+}
+
+@Model
+class Investment: Identifiable {
+    var id: UUID
     var type: String
-    var symbol: Currency = .dollar
+    var symbol: String
     var value: Double
     var qtd: Double?
-    var color: Color
+    var colorHex: String
+    
+    init(type: String, symbol: String, value: Double, qtd: Double? = nil, color: String) {
+        self.id = .init()
+        self.type = type
+        self.symbol = symbol
+        self.value = value
+        self.qtd = qtd
+        self.colorHex = color
+    }
 }
 
-struct MonthReport {
+@Model
+class MonthReport {
     var month: Date
     var report: [Report]
+    
+    init(month: Date, report: [Report]) {
+        self.month = month
+        self.report = report
+    }
 }
 
-struct Report: Identifiable {
-    var id: UUID = .init()
+@Model
+class Report: Identifiable {
+    var id: UUID
     var date: Date
     var value: Double
     var name: String?
-    var symbol: Currency = .dollar
+    var symbol: String
+    
+    init(date: Date, value: Double, name: String? = nil, symbol: String) {
+        self.id = .init()
+        self.date = date
+        self.value = value
+        self.name = name
+        self.symbol = symbol
+    }
 }
 
 struct DashboardItem: Identifiable, Equatable {

@@ -9,15 +9,16 @@ import SwiftUI
 
 struct Balance_V: View {
     @State var data: [Investment] = [
-        .init(type: "Crypto", value: 10, color: .red),
-        .init(type: "CDB", value: 12, color: .green),
-        .init(type: "Stocks", value: 50, color: .orange),
-        .init(type: "NFT", value: 30, color: .purple),
+        .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()),
+        .init(type: "Stock", symbol: Currency.dollar.rawValue, value: 10, color: Color.blue.toHex())
+
     ]
     
     @State var data2: [Investment] = [
-        .init(type: "Crypto", value: 10, color: .red),
-        .init(type: "CDB", value: 12, color: .green),
+        .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()),
+        .init(type: "Stock", symbol: Currency.dollar.rawValue, value: 5, color: Color.blue.toHex()),
+        .init(type: "A", symbol: Currency.dollar.rawValue, value: 8, color: Color.black.toHex()),
+        .init(type: "B", symbol: Currency.dollar.rawValue, value: 10, color: Color.red.toHex())
     ]
     
     @State private var dashItems: [DashboardItem] = [

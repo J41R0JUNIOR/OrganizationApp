@@ -24,7 +24,7 @@ struct CustomChart_C: View {
                 ZStack {
                     ForEach(getSlices(), id: \.0.id) { invested, startAngle, endAngle in
                         PieSliceShape(startAngle: startAngle, endAngle: endAngle)
-                            .fill(invested.color)
+                            .fill(Color(hex: invested.colorHex))
                             .scaleEffect(selectedType == nil || selectedType == invested.type ? 1 : 0.8)
                             .animation(.spring(), value: selectedType)
                             .onTapGesture {
@@ -33,7 +33,7 @@ struct CustomChart_C: View {
                     }
                     
                     if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
-                        Text("\(invested.type) \(invested.symbol.rawValue)\(Int(invested.value))")
+                        Text("\(invested.type) \(invested.symbol)\(Int(invested.value))")
                             .foregroundStyle(.main3)
                             .font(.headline)
                             .padding()
@@ -112,7 +112,7 @@ struct LegendGridView: View {
                     HStack {
                         Rectangle()
                             .frame(width: 12, height: 12)
-                            .foregroundColor(item.color)
+                            .foregroundColor(Color(hex: item.colorHex))
                             .cornerRadius(2)
                         
                         Text(item.type)
@@ -130,15 +130,15 @@ struct LegendGridView: View {
     }
 }
 
-#Preview {
-    CustomChart_C(data: .constant([
-        .init(type: "BTC", value: 10, color: .red),
-        .init(type: "ETH", value: 40, color: .blue),
-        .init(type: "CDB", value: 12, color: .green),
-        .init(type: "Stocks", value: 50, color: .orange),
-        .init(type: "NFT", value: 30, color: .purple),
-    ]))
-}
+//#Preview {
+//    CustomChart_C(data: .constant([
+//        .init(type: "BTC", value: 10, color: .red),
+//        .init(type: "ETH", value: 40, color: .blue),
+//        .init(type: "CDB", value: 12, color: .green),
+//        .init(type: "Stocks", value: 50, color: .orange),
+//        .init(type: "NFT", value: 30, color: .purple),
+//    ]))
+//}
 
 #Preview {
     Balance_V()
