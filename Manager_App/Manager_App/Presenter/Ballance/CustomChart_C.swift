@@ -15,36 +15,38 @@ struct CustomChart_C: View {
     }
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color.main1)
-//                .opacity(0.5)
-            
-            HStack {
-                ZStack {
-                    ForEach(getSlices(), id: \.0.id) { invested, startAngle, endAngle in
-                        PieSliceShape(startAngle: startAngle, endAngle: endAngle)
-                            .fill(Color(hex: invested.colorHex))
-                            .scaleEffect(selectedType == nil || selectedType == invested.type ? 1 : 0.8)
-                            .animation(.spring(), value: selectedType)
-                            .onTapGesture {
-                                selectedType = selectedType == invested.type ? nil : invested.type
-                            }
-                    }
-                    
-                    if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
-                        Text("\(invested.type) \(invested.symbol)\(Int(invested.value))")
-                            .foregroundStyle(.main3)
-                            .font(.headline)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.backGround.opacity(0.9)))
-                    }
-                }
-                .aspectRatio(1, contentMode: .fit)
+        if !data.isEmpty {
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.main1)
+                //                .opacity(0.5)
                 
-                LegendGridView(data: data)
+                HStack {
+                    ZStack {
+                        ForEach(getSlices(), id: \.0.id) { invested, startAngle, endAngle in
+                            PieSliceShape(startAngle: startAngle, endAngle: endAngle)
+                                .fill(Color(hex: invested.colorHex))
+                                .scaleEffect(selectedType == nil || selectedType == invested.type ? 1 : 0.8)
+                                .animation(.spring(), value: selectedType)
+                                .onTapGesture {
+                                    selectedType = selectedType == invested.type ? nil : invested.type
+                                }
+                        }
+                        
+                        if let selected = selectedType, let invested = data.first(where: { $0.type == selected }) {
+                            Text("\(invested.type) \(invested.symbol)\(Int(invested.value))")
+                                .foregroundStyle(.main3)
+                                .font(.headline)
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.backGround.opacity(0.9)))
+                        }
+                    }
+                    .aspectRatio(1, contentMode: .fit)
+                    
+                    LegendGridView(data: data)
+                }
+                .padding()
             }
-            .padding()
         }
     }
     

@@ -9,21 +9,14 @@ import SwiftUI
 
 struct Balance_V: View {
     @State var data: [Investment] = [
-        .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()),
-        .init(type: "Stock", symbol: Currency.dollar.rawValue, value: 10, color: Color.blue.toHex())
+//        .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()),
+//        .init(type: "Stock", symbol: Currency.dollar.rawValue, value: 10, color: Color.blue.toHex())
 
     ]
-    
-    @State var data2: [Investment] = [
-        .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()),
-        .init(type: "Stock", symbol: Currency.dollar.rawValue, value: 5, color: Color.blue.toHex()),
-        .init(type: "A", symbol: Currency.dollar.rawValue, value: 8, color: Color.black.toHex()),
-        .init(type: "B", symbol: Currency.dollar.rawValue, value: 10, color: Color.red.toHex())
-    ]
+
     
     @State private var dashItems: [DashboardItem] = [
         .init(id: "chart"),
-        .init(id: "chart1"),
     ]
     
     @State var draggedItem: DashboardItem?
@@ -34,13 +27,11 @@ struct Balance_V: View {
             
             dashboardView(for: .init(id: "mainBalance"))
             
-            
-            
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVStack() {
                     ForEach(dashItems) { item in
                         dashboardView(for: item)
-                            .padding(.horizontal)
+//                            .padding(.horizontal)
                             .onDrag {
                                 self.draggedItem = item
                                 return NSItemProvider()
@@ -49,9 +40,40 @@ struct Balance_V: View {
                     }
                 }
             }
+            
+            Button {
+                SwiftData_Manager.shared.addInvestment(investment: .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()))
+                
+                SwiftData_Manager.shared.fetch(onCompletition: { result in
+                    switch result {
+                    case .success(let investments):
+                        self.data = investments.first?.investments ?? []
+                    case .failure(let error):
+                        print(error)
+                    }
+                })
+            } label: {
+                Image(systemName: "plus.circle.fill")
+                    .font(.largeTitle)
+            }
+
         }
         .padding()
         .background(Color.backGround)
+//        .onAppear {
+//            SwiftData_Manager.shared.save(user: .init(name: "Jairo", investments: [        .init(type: "Crypto", symbol: Currency.dollar.rawValue, value: 10, color: Color.green.toHex()),
+//                                                                                           .init(type: "Stock", symbol: Currency.dollar.rawValue, value: 10, color: Color.blue.toHex())], monthReports: []))
+//        }
+        .task {
+            SwiftData_Manager.shared.fetch(onCompletition: { result in
+                switch result {
+                case .success(let investments):
+                    self.data = investments.first?.investments ?? []
+                case .failure(let error):
+                    print(error)
+                }
+            })
+        }
     }
     
     @ViewBuilder
@@ -62,8 +84,7 @@ struct Balance_V: View {
         case "chart":
             CustomChart_C(data: $data)
         default:
-            CustomChart_C(data: $data2)
-//                        EmptyView()
+            EmptyView()
         }
     }
 }
