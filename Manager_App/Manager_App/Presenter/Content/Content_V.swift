@@ -20,7 +20,7 @@ struct Content_V: View {
                     Text("Balance")
                 }
             
-            Reports_V()
+            Reports_V() 
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Reports")

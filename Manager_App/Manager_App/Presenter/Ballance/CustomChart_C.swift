@@ -18,12 +18,12 @@ struct CustomChart_C: View {
             
             switch TypesInvesment(rawValue: type)! {
 
-                case .bonds:
-                    return (type, totalValue, Color.red.toHex())
+//                case .bonds:
+//                    return (type, totalValue, Color.red.toHex())
                 case .stocks:
                     return (type, totalValue, Color.green.toHex())
-                case .commodities:
-                    return (type, totalValue, Color.yellow.toHex())
+//                case .commodities:
+//                    return (type, totalValue, Color.yellow.toHex())
                 case .cryptos:
                     return (type, totalValue, Color.orange.toHex())
                 case .reits:

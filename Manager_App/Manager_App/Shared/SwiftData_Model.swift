@@ -79,8 +79,6 @@ struct DashboardItem: Identifiable, Equatable {
 
 enum TypesInvesment: String, CaseIterable {
     case stocks
-    case bonds
-    case commodities
     case cryptos
     case reits
 }
