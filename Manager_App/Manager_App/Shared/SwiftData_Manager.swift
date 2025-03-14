@@ -8,6 +8,9 @@
 import Foundation
 import SwiftData
 
+
+
+
 @Observable
 class SwiftData_Manager {
     static var shared = SwiftData_Manager()
@@ -17,13 +20,11 @@ class SwiftData_Manager {
    
     
     init() {
-        do {
-            container = try ModelContainer(for: User.self)
+        do{
+            container = .appContainer
             if let container {
                 context = ModelContext(container)
             }
-        } catch {
-            print("Error: \(error)")
         }
     }
     
@@ -36,15 +37,16 @@ class SwiftData_Manager {
                 print("Error saving data: \(error)")
             }
         }
+        fetch()
     }
     
     func addInvestment(investment: Investment) {
-        
         if let user = user {
             user.investments.append(investment)
             save(user: user)
         } 
         fetch()
+        
     }
     
     func removeAllInvestments() {

@@ -41,6 +41,10 @@ struct Content_V: View {
     }
 }
 
+
+
+
+import SwiftData
 #Preview {
     Content_V()
 }
