@@ -8,35 +8,18 @@
 import SwiftUI
 
 struct Reports_V: View {
-    @State var reports: [MonthReport] = [
-        .init(month: .now, report: [
-            .init(date: Date(), value: 32, name: "BTC", symbol: Currency.dollar.rawValue),
-            .init(date: Date(), value: -234, symbol: Currency.dollar.rawValue),
-            .init(date: Date(), value: 22.5, name: "BBAS3", symbol: Currency.dollar.rawValue),
-            .init(date: Date(), value: -33, symbol: Currency.dollar.rawValue),
-            .init(date: Date(), value: -244.65, name: "BBAS3", symbol: Currency.dollar.rawValue),
-        ]),
-        .init(month: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, report: [
-            .init(date: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, value: 150, name: "AAPL", symbol: Currency.dollar.rawValue),
-            .init(date: Calendar.current.date(byAdding: .month, value: -1, to: .now)!, value: -50, symbol: Currency.dollar.rawValue),
-        ]),
-        .init(month: Calendar.current.date(byAdding: .month, value: -2, to: .now)!, report: [
-            .init(date: Calendar.current.date(byAdding: .month, value: -2, to: .now)!, value: 300, name: "TSLA", symbol: Currency.dollar.rawValue),
-            .init(date: Calendar.current.date(byAdding: .month, value: -2, to: .now)!, value: -75, symbol: Currency.dollar.rawValue),
-        ]),
-    ]
-    
+   
     @State private var selectedMonth: Date = .now
     
     var selectedReport: MonthReport? {
-        reports.first { Calendar.current.isDate($0.month, equalTo: selectedMonth, toGranularity: .month) }
+        SwiftData_Manager.shared.user?.monthReports.first { Calendar.current.isDate($0.month, equalTo: selectedMonth, toGranularity: .month) }
     }
     
     var body: some View {
         VStack {
        
             Picker("Mês", selection: $selectedMonth) {
-                ForEach(reports.map(\.month), id: \.self) { month in
+                ForEach(SwiftData_Manager.shared.user?.monthReports.map(\.month) ?? [], id: \.self) { month in
                     Text(month.formatted(.dateTime.year().month(.twoDigits)))
                         .tag(month)
                 }

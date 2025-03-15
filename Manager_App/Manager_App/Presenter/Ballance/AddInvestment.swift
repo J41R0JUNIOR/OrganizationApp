@@ -16,6 +16,8 @@ struct AddInvestment: View {
 
     @State private var value: Double = 0
     @State private var qtd: Double = 0
+    
+    @State private var subtractFromBudget: Bool = false
 
     @State private var identifier: String = ""
     var body: some View {
@@ -80,13 +82,17 @@ struct AddInvestment: View {
                             .cornerRadius(8)
                             .keyboardType(.numberPad)
                     }
+                    
+                    
                 }.padding()
                     .foregroundStyle(.black)
+                
+                Toggle("Subtract from Budget?", isOn: $subtractFromBudget)
                 
                 Spacer()
                 
                 Button {
-                    SwiftData_Manager.shared.addInvestment(investment: .init(identifier: identifier, symbol: Currency.dollar.rawValue, type: selectedType.rawValue, value: value, qtd: qtd))
+                    SwiftData_Manager.shared.addInvestment(.init(identifier: identifier, symbol: Currency.dollar.rawValue, type: selectedType.rawValue, value: value, qtd: qtd), subtractFromBudget: subtractFromBudget)
                     
                     showModal.toggle()
                 } label: {

@@ -16,11 +16,13 @@ enum Currency: String {
 @Model
 class User {
     var name: String
+    var budget: Double
     var investments: [Investment]
     var monthReports: [MonthReport]
     
-    init(name: String, investments: [Investment], monthReports: [MonthReport]) {
+    init(name: String, budget: Double, investments: [Investment], monthReports: [MonthReport]) {
         self.name = name
+        self.budget = budget
         self.investments = investments
         self.monthReports = monthReports
     }

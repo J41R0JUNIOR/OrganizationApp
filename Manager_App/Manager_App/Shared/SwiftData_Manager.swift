@@ -8,109 +8,113 @@
 import Foundation
 import SwiftData
 
-
-
-
 @Observable
 class SwiftData_Manager {
-    static var shared = SwiftData_Manager()
-    var container: ModelContainer?
-    var context: ModelContext?
+    static let shared = SwiftData_Manager()
+    
+    private var container: ModelContainer
+    private var context: ModelContext
     var user: User?
-   
     
     init() {
-        do{
-#warning("Não esquecer trocar pro appContainer")
-
-            container = .appContainer
-            if let container {
-                context = ModelContext(container)
-            }
-        }
-    }
+         do {
+             #warning("Não esquecer trocar pro appContainer")
+             
+             let testContainer = ModelContainer.appContainer
+             self.container = testContainer
+             self.context = ModelContext(testContainer)
+             
+             fetch()
+         }
+     }
     
-    func save(user: User) {
-        if let context = context {
-            context.insert(user)
-            do {
-                try context.save()
-            } catch {
-                print("Error saving data: \(error)")
-            }
-        }
-        fetch()
-    }
-    
-    func addInvestment(investment: Investment) {
-        if let user = user {
-            user.investments.append(investment)
-            save(user: user)
-        } 
-        fetch()
-        
-    }
-    
-    func removeAllInvestments() {
-        guard let user = user, let context = context else {
-            return
-        }
-
-        user.investments = []
-
+    func save() {
         do {
             try context.save()
         } catch {
-            print("\(error)")
+            print("Error saving data: \(error)")
         }
-
-        fetch()
     }
 
-
-
+    func saveUser(_ user: User) {
+        context.insert(user)
+        save()
+    }
+    
+    func addInvestment(_ investment: Investment, subtractFromBudget: Bool = false) {
+        guard let user else { return }
+        
+        if subtractFromBudget && investment.value < user.budget{
+            user.budget -= investment.value
+            addReport(.init(date: .now, value: -investment.value, symbol: Currency.dollar.rawValue))
+        } else if subtractFromBudget && investment.value > user.budget {
+            return
+        }
+        
+        user.investments.append(investment)
+        save()
+    }
+    
+    func addMonthReport(for month: Date = .now) {
+        guard let user else { return }
+        
+        if !user.monthReports.contains(where: { Calendar.current.isDate($0.month, inSameDayAs: month) }) {
+            user.monthReports.append(.init(month: month, report: []))
+            save()
+        }
+    }
+    
+    func addReport(_ report: Report) {
+        guard let user else { return }
+        
+        if let monthReport = user.monthReports.first(where: { Calendar.current.isDate($0.month, inSameDayAs: .now) }) {
+            monthReport.report.append(report)
+        } else {
+            addMonthReport()
+            user.monthReports.last?.report.append(report)
+        }
+        
+        save()
+    }
+    
+    func removeAllInvestments() {
+        guard let user else { return }
+        
+        user.investments.removeAll()
+        save()
+    }
+    
     func fetch() {
         let descriptor = FetchDescriptor<User>()
         
-        if let context = context {
-            do {
-                let data = try context.fetch(descriptor)
-                
-                self.user = data.first
-                
-                if user == nil {
-                    save(user: .init(name: "", investments: [], monthReports: []))
-                }
-                
-    
-            } catch {
-                print(error)
+        do {
+            let data = try context.fetch(descriptor)
+            self.user = data.first
+            
+            if user == nil {
+                let newUser = User(name: "", budget: 0, investments: [], monthReports: [])
+                saveUser(newUser)
+                self.user = newUser
             }
+        } catch {
+            print("Error fetching data: \(error)")
         }
     }
-
-    func delete(user: User) {
-        if let context = context {
-            context.delete(user)
-            do {
-                try context.save()
-            } catch {
-                print("Error saving after delete: \(error)")
-            }
-        }
+    
+    func delete(_ user: User) {
+        context.delete(user)
+        save()
     }
     
     func deleteAll() {
-        if let context = context {
-            let descriptor = FetchDescriptor<User>()
-            do {
-                let data = try context.fetch(descriptor)
-                data.forEach { context.delete($0) }
-                
-                try context.save()
-            } catch {
-                print("Error deleting all data: \(error)")
-            }
+        let descriptor = FetchDescriptor<User>()
+        
+        do {
+            let data = try context.fetch(descriptor)
+            data.forEach { context.delete($0) }
+            save()
+        } catch {
+            print("Error deleting all data: \(error)")
         }
     }
 }

@@ -15,7 +15,9 @@ struct MainBalance_C: View {
     @Binding var currency: Currency
     
     var total: Double {
-        SwiftData_Manager.shared.user?.investments.reduce(0) { $0 + $1.value } ?? 0
+        let user = SwiftData_Manager.shared.user
+        return (user?.investments.reduce(0) { $0 + $1.value } ?? 0) + (user?.budget ?? 0)
+        
       }
     
     var body: some View {
