@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Balance_V: View {
-
+    
     @State private var dashItems: [DashboardItem] = [
         .init(id: "chart"),
     ]
@@ -20,49 +20,40 @@ struct Balance_V: View {
     var body: some View {
         GeometryReader { geometry in
             
-
-        VStack {
             
-            dashboardView(for: .init(id: "mainBalance"))
-            
-            ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack() {
-                    ForEach(dashItems) { item in
-                        dashboardView(for: item)
-                            .onDrag {
-                                self.draggedItem = item
-                                return NSItemProvider()
-                            }
-                            .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: item, itens: $dashItems, draggedItem: $draggedItem))
+            VStack {
+                
+                dashboardView(for: .init(id: "mainBalance"))
+                
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVStack() {
+                        ForEach(dashItems) { item in
+                            dashboardView(for: item)
+                                .onDrag {
+                                    self.draggedItem = item
+                                    return NSItemProvider()
+                                }
+                                .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: item, itens: $dashItems, draggedItem: $draggedItem))
+                        }
+                    }
+                }
+                
+                HStack {
+                    Button {
+                        showAddInvestment.toggle()
+                        
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundStyle(.main3)
                     }
                 }
             }
-            
-            HStack {
-                
-//                Button {
-//                    SwiftData_Manager.shared.addInvestment(investment: .init(identifier: "NoName", symbol: Currency.dollar.rawValue, type: TypesInvesment.reits.rawValue, value: 10))
-//                    
-//                } label: {
-//                    Image(systemName: "plus.circle.fill")
-//                        .font(.largeTitle)
-//                        .foregroundStyle(.main3)
-//                }
-                Button {
-                    showAddInvestment.toggle()
-                    
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.largeTitle)
-                        .foregroundStyle(.main3)
-                }
-            }
-        }
         }
         .padding()
         .background(.backGround)
-        .sheet(isPresented: $showAddInvestment, content: {AddInvestment()})
-
+        .sheet(isPresented: $showAddInvestment, content: {AddInvestment(showModal: $showAddInvestment)})
+        
         .task {
             SwiftData_Manager.shared.fetch()
         }

@@ -58,7 +58,7 @@ struct CustomChart_C: View {
                     .aspectRatio(1, contentMode: .fit)
                     
                     VStack {
-                        Spacer()
+                      
                         if let selected = selectedType {
                             if let category = groupedInvestments.first(where: { $0.type == selected }) {
                                 Text("\(category.type) $\(Int(category.totalValue))")
@@ -68,6 +68,8 @@ struct CustomChart_C: View {
                                     .background(RoundedRectangle(cornerRadius: 10).fill(Color.backGround.opacity(0.9)))
                             }
                         }
+                        
+                        Spacer()
                         
                         LegendGridView(data: groupedInvestments)
                     }
@@ -163,5 +165,5 @@ struct PieSliceShape: Shape {
 //}
 
 #Preview {
-    Balance_V()
+    CustomChart_C(data: .constant([.init(identifier: "1", symbol: "AAPL", type: TypesInvesment.reits.rawValue, value: 100), .init(identifier: "2", symbol: "MSFT", type: TypesInvesment.stocks.rawValue, value: 200)]))
 }
