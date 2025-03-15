@@ -8,27 +8,29 @@
 import SwiftUI
 import Foundation
 
+enum ActiveField {
+    case value, qtd
+}
+
 struct AddInvestment: View {
-    
     @Binding var showModal: Bool
-    
     @State private var selectedType: TypesInvesment = .stocks
-
-    @State private var value: Double = 0
-    @State private var qtd: Double = 0
-    
+    @State private var value: String = ""
+    @State private var qtd: String = ""
     @State private var subtractFromBudget: Bool = false
-
     @State private var identifier: String = ""
+    @State private var activeField: ActiveField? = nil
+    
+    
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
-             
-                    Text("Add Investment")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundStyle(.white)
-              
+                Text("Add Investment")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundStyle(.white)
+                
                 Spacer()
                 
                 ZStack {
@@ -37,15 +39,13 @@ struct AddInvestment: View {
                     
                     HStack {
                         ForEach(TypesInvesment.allCases, id: \.self) { type in
-                            ZStack{
+                            ZStack {
                                 RoundedRectangle(cornerRadius: 5)
                                     .fill(selectedType == type ? Color.white : Color.clear)
-                                
                                 
                                 Text(type.rawValue.capitalized)
                                     .font(.caption)
                                     .foregroundStyle(.backGround)
-                                
                                     .onTapGesture {
                                         selectedType = type
                                     }
@@ -56,44 +56,22 @@ struct AddInvestment: View {
                 }
                 .aspectRatio(12, contentMode: .fit)
                 
+                TextField("Name", text: $identifier)
+                    .textFieldStyle(.roundedBorder)
+                    .foregroundStyle(Color.backGround)
+                
                 HStack {
-                    VStack {
-                        Text("Name").foregroundStyle(.white)
-                        TextField("Name", text: $identifier)
-                            .padding(5)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                    }
-                    
-                    VStack {
-                        Text("Value").foregroundStyle(.white)
-                        TextField("Value", value: $value, formatter: NumberFormatter())
-                            .padding(5)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .keyboardType(.numberPad)
-                    }
-                    
-                    VStack {
-                        Text("Qtd").foregroundStyle(.white)
-                        TextField("Qtd", value: $qtd, formatter: NumberFormatter())
-                            .padding(5)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .keyboardType(.numberPad)
-                    }
-                    
-                    
-                }.padding()
-                    .foregroundStyle(.black)
+                    CustomTextField(title: "Value", value: $value, activeField: $activeField, field: .value)
+                    CustomTextField(title: "Quantity", value: $qtd, activeField: $activeField, field: .qtd)
+                }
+                .padding()
                 
                 Toggle("Subtract from Budget?", isOn: $subtractFromBudget)
                 
                 Spacer()
                 
                 Button {
-                    SwiftData_Manager.shared.addInvestment(.init(identifier: identifier, symbol: Currency.dollar.rawValue, type: selectedType.rawValue, value: value, qtd: qtd), subtractFromBudget: subtractFromBudget)
-                    
+                    SwiftData_Manager.shared.addInvestment(.init(identifier: identifier, symbol: Currency.dollar.rawValue, type: selectedType.rawValue, value: Double(value) ?? 0.0, qtd: Double(qtd) ?? 0.0), subtractFromBudget: subtractFromBudget)
                     showModal.toggle()
                 } label: {
                     HStack {
@@ -116,14 +94,118 @@ struct AddInvestment: View {
                     }
                 }
                 .buttonStyle(.bordered)
-                
             }
             .padding()
+            .overlay(
+                Group {
+                    if activeField != nil {
+                        VStack {
+                            Spacer()
+                            CustomNumericKeyboard(input: getActiveBinding(), onDismiss: { activeField = nil })
+                                .transition(.move(edge: .bottom))
+                                .animation(.spring(), value: activeField)
+                        }
+                    }
+                }
+            )
+            .foregroundStyle(.white)
+            .background(Color.backGround)
         }
-        .foregroundStyle(.white)
-        .background(Color.backGround)
+    }
+    
+    private func getActiveBinding() -> Binding<String> {
+        switch activeField {
+        case .value: return $value
+        case .qtd: return $qtd
+        case .none: return .constant("")
+        }
     }
 }
+
+struct CustomTextField: View {
+    var title: String
+    @Binding var value: String
+    @Binding var activeField: ActiveField?
+    var field: ActiveField
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.backGround1)
+            
+            Text(value.isEmpty ? "\(title)" : value)
+                .foregroundStyle(value.isEmpty ? .gray : .white)
+        }
+        .aspectRatio(3.5, contentMode: .fit)
+        .onTapGesture {
+            activeField = field
+        }
+    }
+}
+
+struct CustomNumericKeyboard: View {
+    @Binding var input: String
+    var onDismiss: (() -> Void)?
+    
+    let buttons: [[String]] = [
+        ["1", "2", "3"],
+        ["4", "5", "6"],
+        ["7", "8", "9"],
+        [".", "0", "⌫"]
+    ]
+    
+    var body: some View {
+        VStack(spacing: 10) {
+            ForEach(buttons, id: \ .self) { row in
+                HStack(spacing: 10) {
+                    ForEach(row, id: \ .self) { key in
+                        Button(action: {
+                            handleKeyPress(key)
+                        }) {
+                            Text(key)
+                                .font(.system(size: 28, weight: .medium))
+                                .frame(width: 80, height: 80)
+                                .background(Color(.systemGray5))
+                                .foregroundColor(.black)
+                                .clipShape(Circle())
+                        }
+                    }
+                }
+            }
+            
+            Button(action: {
+                onDismiss?()
+            }) {
+                Text("Enter")
+                    .font(.system(size: 20, weight: .bold))
+                    .frame(width: 260, height: 50)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+            .padding(.top, 10)
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+       
+    }
+    
+    private func handleKeyPress(_ key: String) {
+        if key == "⌫" {
+            if !input.isEmpty {
+                input.removeLast()
+            }
+        } else if key == "." {
+            if !input.contains(".") {
+                input.append(".")
+            }
+        } else {
+            input.append(key)
+        }
+    }
+}
+
 
 #Preview {
     AddInvestment(showModal: .constant(false))

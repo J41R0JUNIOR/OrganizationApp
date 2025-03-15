@@ -43,7 +43,6 @@ class SwiftData_Manager {
     
     func addInvestment(_ investment: Investment, subtractFromBudget: Bool = false) {
         guard let user else { return }
-        
         if subtractFromBudget && investment.value < user.budget{
             user.budget -= investment.value
             addReport(.init(date: .now, value: -investment.value, symbol: Currency.dollar.rawValue))
