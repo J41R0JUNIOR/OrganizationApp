@@ -41,10 +41,16 @@ struct CustomChart_C: View {
         if !groupedInvestments.isEmpty {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.main1)
+                    .fill(Color.backGround1)
                 
                 HStack {
                     ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+//                            .stroke(Color.white, lineWidth: 2)
+
+                            .fill(Color.backGround11)
+                        
+                        
                         ForEach(getSlices(), id: \.0) { type, startAngle, endAngle, color in
                             PieSliceShape(startAngle: startAngle, endAngle: endAngle)
                                 .fill(Color(hex: color))
@@ -54,25 +60,23 @@ struct CustomChart_C: View {
                                     selectedType = selectedType == type ? nil : type
                                 }
                         }
-                    }
-                    .aspectRatio(1, contentMode: .fit)
-                    
-                    VStack {
-                      
+                        .padding(3)
+                        
                         if let selected = selectedType {
                             if let category = groupedInvestments.first(where: { $0.type == selected }) {
                                 Text("\(category.type) $\(Int(category.totalValue))")
                                     .foregroundStyle(.main3)
-                                    .font(.headline)
-                                    .padding()
+                                    .font(.caption)
+                                    .padding(3)
                                     .background(RoundedRectangle(cornerRadius: 10).fill(Color.backGround.opacity(0.9)))
                             }
                         }
-                        
-                        Spacer()
-                        
-                        LegendGridView(data: groupedInvestments)
                     }
+                    .aspectRatio(1, contentMode: .fit)
+                    
+   
+                        LegendGridView(data: groupedInvestments)
+                    
                 }
                 .padding()
             }
