@@ -138,9 +138,14 @@ struct CustomTextField: View {
         }
         .aspectRatio(3.5, contentMode: .fit)
         .onTapGesture {
+            resignFirstResponder()
             activeField = field
         }
     }
+    
+    private func resignFirstResponder() {
+           UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+       }
 }
 
 struct CustomNumericKeyboard: View {
