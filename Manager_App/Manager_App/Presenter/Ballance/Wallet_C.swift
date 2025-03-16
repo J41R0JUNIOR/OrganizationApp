@@ -17,7 +17,7 @@ struct Wallet_C: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("wallet: \(wallet.name)")
+                    Text("Wallet: \(wallet.name)")
                         .font(.title)
                         .bold()
                     Text("\(wallet.currency) \(String(format: "%.2f", wallet.value))")

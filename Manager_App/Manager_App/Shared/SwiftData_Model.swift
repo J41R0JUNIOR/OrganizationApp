@@ -29,7 +29,7 @@ class User {
 }
 
 @Model
-class Wallet: Identifiable {
+class Wallet: Identifiable, Hashable {
     var id: UUID
     var name: String
     var currency: String
@@ -40,6 +40,14 @@ class Wallet: Identifiable {
         self.name = name
         self.currency = currency.rawValue
         self.value = value
+    }
+    
+    static func == (lhs: Wallet, rhs: Wallet) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
 
@@ -78,15 +86,17 @@ class Report: Identifiable {
     var id: UUID
     var date: Date
     var value: Double
+    var wallet: String
     var name: String?
     var symbol: String
     
-    init(date: Date, value: Double, name: String? = nil, symbol: String) {
+    init(date: Date, value: Double, name: String? = nil, symbol: Currency, wallet: String) {
         self.id = UUID()
         self.date = date
         self.value = value
         self.name = name
-        self.symbol = symbol
+        self.symbol = symbol.rawValue
+        self.wallet = wallet
     }
 }
 
