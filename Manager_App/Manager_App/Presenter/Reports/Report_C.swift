@@ -16,9 +16,8 @@ struct Report_C: View {
                 Image(systemName: report.value < 0 ? "arrowshape.down.circle" : "arrowshape.up.circle")
                     .foregroundStyle(report.value < 0 ? .red : .green)
             
-                
                 VStack{
-                    Text(report.name ?? "Average")
+                    Text(report.name ?? "Error report name")
                         .bold()
                     
                     Text("\(report.symbol) \(String(format: "%.2f", report.value))")
@@ -28,9 +27,15 @@ struct Report_C: View {
                 
                 Spacer()
              
-
+                VStack(alignment: .trailing, content: {
+                    
+                    Text("\(report.wallet) wallet")
+                
                     Text(report.date.formatted(.dateTime.day().month(.twoDigits)))
                         .font(.caption)
+                    
+                    
+                })
                  
             }
             .padding(.vertical)
@@ -47,4 +52,8 @@ struct Report_C: View {
 
 #Preview {
     Reports_V()
+}
+
+#Preview {
+    Report_C(report: .constant(.init(date: .now, value: -12, name: "BBAS3", symbol: .dollar, wallet: "Default")))
 }

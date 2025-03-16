@@ -43,7 +43,7 @@ extension Binding where Value == Double {
             formatter.numberStyle = .decimal
             formatter.locale = Locale(identifier: "en_US")
             formatter.minimumFractionDigits = 0
-            formatter.maximumFractionDigits = 2
+            formatter.maximumFractionDigits = 10
             formatter.usesGroupingSeparator = false
             return formatter
         }()
