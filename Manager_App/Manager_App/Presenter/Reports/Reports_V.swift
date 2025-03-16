@@ -37,12 +37,13 @@ struct Reports_V: View {
                         }
                     }
                 } else {
-                    Text("Nenhum relatório disponível para este mês.")
+                    Text("No report available this month")
                         .foregroundStyle(.white)
                 }
             }
             .padding()
-        }.ignoresSafeArea()
+        }
+//        .ignoresSafeArea()
     }
 }
 

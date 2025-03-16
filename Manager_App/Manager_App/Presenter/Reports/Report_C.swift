@@ -10,33 +10,29 @@ import SwiftUI
 struct Report_C: View {
     @Binding var report: Report
     var body: some View {
-      
+        
             HStack {
                 
                 Image(systemName: report.value < 0 ? "arrowshape.down.circle" : "arrowshape.up.circle")
                     .foregroundStyle(report.value < 0 ? .red : .green)
             
-                VStack{
+                VStack(alignment: .leading){
                     Text(report.name ?? "Error report name")
                         .bold()
                     
                     Text("\(report.symbol) \(String(format: "%.2f", report.value))")
                         .font(.caption)
-
                 }
                 
                 Spacer()
              
-                VStack(alignment: .trailing, content: {
+                VStack(alignment: .trailing){
                     
                     Text("\(report.wallet) wallet")
                 
                     Text(report.date.formatted(.dateTime.day().month(.twoDigits)))
                         .font(.caption)
-                    
-                    
-                })
-                 
+                }
             }
             .padding(.vertical)
             .foregroundStyle(.white)
@@ -45,8 +41,6 @@ struct Report_C: View {
         
             .scaledToFit()
         }
-       
-    
 }
 
 
