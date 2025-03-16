@@ -16,32 +16,33 @@ struct Reports_V: View {
     }
     
     var body: some View {
-        VStack {
-       
-            Picker("Mês", selection: $selectedMonth) {
-                ForEach(SwiftData_Manager.shared.user?.monthReports.map(\.month) ?? [], id: \.self) { month in
-                    Text(month.formatted(.dateTime.year().month(.twoDigits)))
-                        .tag(month)
-                }
-            }
-            .pickerStyle(.menu)
-            .foregroundStyle(.white)
-            .tint(.white)
-            
-      
-            if let report = selectedReport {
-                ScrollView {
-                    ForEach(report.report) { report in
-                        Report_C(report: .constant(report))
+        ZStack {
+            Color.backGround
+            VStack {
+                Picker("Mês", selection: $selectedMonth) {
+                    ForEach(SwiftData_Manager.shared.user?.monthReports.map(\.month) ?? [], id: \.self) { month in
+                        Text(month.formatted(.dateTime.year().month(.twoDigits)))
+                            .tag(month)
                     }
                 }
-            } else {
-                Text("Nenhum relatório disponível para este mês.")
-                    .foregroundStyle(.white)
+                .pickerStyle(.menu)
+                .foregroundStyle(.white)
+                .tint(.white)
+                
+                
+                if let report = selectedReport {
+                    ScrollView {
+                        ForEach(report.report) { report in
+                            Report_C(report: .constant(report))
+                        }
+                    }
+                } else {
+                    Text("Nenhum relatório disponível para este mês.")
+                        .foregroundStyle(.white)
+                }
             }
-        }
-        .padding()
-        .background(.backGround)
+            .padding()
+        }.ignoresSafeArea()
     }
 }
 

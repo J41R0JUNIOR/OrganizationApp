@@ -19,7 +19,7 @@ struct AddInvestment: View {
     @State private var qtd: Double = 0
     @State private var subtractFromBudget: Bool = false
     @State private var identifier: String = ""
-
+    
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -28,7 +28,7 @@ struct AddInvestment: View {
         formatter.maximumFractionDigits = 2
         return formatter
     }
-
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -36,19 +36,19 @@ struct AddInvestment: View {
                     .font(.largeTitle)
                     .bold()
                     .foregroundStyle(.white)
-
+                
                 Spacer()
-
+                
                 ZStack {
                     RoundedRectangle(cornerRadius: 7)
                         .fill(.backGround3)
-
+                    
                     HStack {
                         ForEach(TypesInvesment.allCases, id: \.self) { type in
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5)
                                     .fill(selectedType == type ? Color.white : Color.clear)
-
+                                
                                 Text(type.rawValue.capitalized)
                                     .font(.caption)
                                     .foregroundStyle(.backGround)
@@ -61,7 +61,7 @@ struct AddInvestment: View {
                     .padding(3)
                 }
                 .aspectRatio(12, contentMode: .fit)
-
+                
                 HStack {
                     VStack {
                         Text("Name").foregroundStyle(.white)
@@ -70,52 +70,53 @@ struct AddInvestment: View {
                             .background(Color.white)
                             .cornerRadius(8)
                     }
-
+                    
                     VStack {
-                                     Text("Value").foregroundStyle(.white)
-                                     TextField("Value", text: Binding(
-                                         get: {
-                                             numberFormatter.string(from: NSNumber(value: value)) ?? ""
-                                         },
-                                         set: { newValue in
-                                             let cleanValue = newValue.replacingOccurrences(of: ",", with: ".") // Substituir vírgula por ponto
-                                             if let parsedValue = numberFormatter.number(from: cleanValue) {
-                                                 value = parsedValue.doubleValue
-                                             }
-                                         }
-                                     ))
-                                     .padding(5)
-                                     .background(Color.white)
-                                     .cornerRadius(8)
-                                     .keyboardType(.decimalPad)
-                                 }
-
-                                 VStack {
-                                     Text("Qtd").foregroundStyle(.white)
-                                     TextField("Qtd", text: Binding(
-                                         get: {
-                                             numberFormatter.string(from: NSNumber(value: qtd)) ?? ""
-                                         },
-                                         set: { newValue in
-                                             let cleanValue = newValue.replacingOccurrences(of: ",", with: ".") 
-                                             if let parsedValue = numberFormatter.number(from: cleanValue) {
-                                                 qtd = parsedValue.doubleValue
-                                             }
-                                         }
-                                     ))
-                                     .padding(5)
-                                     .background(Color.white)
-                                     .cornerRadius(8)
-                                     .keyboardType(.decimalPad)
-                                 }
-                             }
+                        Text("Value").foregroundStyle(.white)
+                        TextField("Value", text: Binding(
+                            get: {
+                                numberFormatter.string(from: NSNumber(value: value)) ?? ""
+                            },
+                            set: { newValue in
+                                let cleanValue = newValue.replacingOccurrences(of: ",", with: ".")
+                                if let parsedValue = numberFormatter.number(from: cleanValue) {
+                                    value = parsedValue.doubleValue
+                                }
+                            }
+                        ))
+                        .padding(5)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .keyboardType(.decimalPad)
+                    }
+                    
+                    VStack {
+                        Text("Qtd").foregroundStyle(.white)
+                        
+                        TextField("Qtd", text: Binding(
+                            get: {
+                                numberFormatter.string(from: NSNumber(value: qtd)) ?? ""
+                            },
+                            set: { newValue in
+                                let cleanValue = newValue.replacingOccurrences(of: ",", with: ".")
+                                if let parsedValue = numberFormatter.number(from: cleanValue) {
+                                    qtd = parsedValue.doubleValue
+                                }
+                            }
+                        ))
+                        .padding(5)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .keyboardType(.decimalPad)
+                    }
+                }
                 .padding()
                 .foregroundStyle(.black)
-
+                
                 Toggle("Subtract from Budget?", isOn: $subtractFromBudget)
-
+                
                 Spacer()
-
+                
                 Button {
                     SwiftData_Manager.shared.addInvestment(.init(identifier: identifier, symbol: Currency.dollar.rawValue, type: selectedType.rawValue, value: value, qtd: qtd), subtractFromBudget: subtractFromBudget)
                     showModal.toggle()
@@ -128,7 +129,7 @@ struct AddInvestment: View {
                     }
                 }
                 .buttonStyle(.borderedProminent)
-
+                
                 Button {
                     showModal.toggle()
                 } label: {
