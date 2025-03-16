@@ -73,17 +73,7 @@ struct AddInvestment: View {
                     
                     VStack {
                         Text("Value").foregroundStyle(.white)
-                        TextField("Value", text: Binding(
-                            get: {
-                                numberFormatter.string(from: NSNumber(value: value)) ?? ""
-                            },
-                            set: { newValue in
-                                let cleanValue = newValue.replacingOccurrences(of: ",", with: ".")
-                                if let parsedValue = numberFormatter.number(from: cleanValue) {
-                                    value = parsedValue.doubleValue
-                                }
-                            }
-                        ))
+                        TextField("00.00", text: $value.formattedNumber())
                         .padding(5)
                         .background(Color.white)
                         .cornerRadius(8)
@@ -93,17 +83,7 @@ struct AddInvestment: View {
                     VStack {
                         Text("Qtd").foregroundStyle(.white)
                         
-                        TextField("Qtd", text: Binding(
-                            get: {
-                                numberFormatter.string(from: NSNumber(value: qtd)) ?? ""
-                            },
-                            set: { newValue in
-                                let cleanValue = newValue.replacingOccurrences(of: ",", with: ".")
-                                if let parsedValue = numberFormatter.number(from: cleanValue) {
-                                    qtd = parsedValue.doubleValue
-                                }
-                            }
-                        ))
+                        TextField("00.00", text: $qtd.formattedNumber())
                         .padding(5)
                         .background(Color.white)
                         .cornerRadius(8)
@@ -148,6 +128,37 @@ struct AddInvestment: View {
         .background(Color.backGround)
     }
 }
+
+
+extension Binding where Value == Double {
+    func formattedNumber() -> Binding<String> {
+        let numberFormatter: NumberFormatter = {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            formatter.locale = Locale(identifier: "en_US")
+            formatter.minimumFractionDigits = 0
+            formatter.maximumFractionDigits = 2
+            return formatter
+        }()
+        
+        return Binding<String>(
+            get: {
+                if self.wrappedValue == 0.0 {
+                    return ""
+                } else {
+                    return numberFormatter.string(from: NSNumber(value: self.wrappedValue)) ?? ""
+                }
+            },
+            set: { newValue in
+                let cleanValue = newValue.replacingOccurrences(of: ",", with: ".")
+                if let parsedValue = numberFormatter.number(from: cleanValue) {
+                    self.wrappedValue = parsedValue.doubleValue
+                }
+            }
+        )
+    }
+}
+
 
 #Preview {
     AddInvestment(showModal: .constant(false))

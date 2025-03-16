@@ -41,6 +41,13 @@ class SwiftData_Manager {
         save()
     }
     
+    func updateBudget(_ newBudget: Double) {
+        guard let user else { return }
+        user.budget = newBudget
+        save()
+    }
+
+    
     func addInvestment(_ investment: Investment, subtractFromBudget: Bool = false) {
         guard let user else { return }
      

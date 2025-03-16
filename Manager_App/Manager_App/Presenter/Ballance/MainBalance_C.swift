@@ -14,11 +14,21 @@ struct MainBalance_C: View {
 //    @Binding var monthReport: MonthReport <- use this instead of income and outcome
     @Binding var currency: Currency
     
+    private var numberFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }
+    
     var total: Double {
         let user = SwiftData_Manager.shared.user
         return (user?.investments.reduce(0) { $0 + $1.value } ?? 0) + (user?.budget ?? 0)
-        
       }
+    
+    @State var balance: Double = 0.0
     
     var body: some View {
         ZStack {
@@ -26,6 +36,22 @@ struct MainBalance_C: View {
                 .fill(Color.backGround2)
       
             VStack {
+//                TextField("Qtd", text: Binding(
+//                    get: {
+//                        numberFormatter.string(from: NSNumber(value: balance)) ?? ""
+//                    },
+//                    set: { newValue in
+//                        let cleanValue = newValue.replacingOccurrences(of: ",", with: ".")
+//                        if let parsedValue = numberFormatter.number(from: cleanValue) {
+//                            balance = parsedValue.doubleValue
+//                        }
+//                    }
+//                ))
+//                .padding(5)
+//                .background(Color.white)
+//                .cornerRadius(8)
+//                .keyboardType(.decimalPad)
+                
                 Text("\(currency.rawValue)\(String(format: "%.2f", total))")
                     .font(.title)
                     .bold()
