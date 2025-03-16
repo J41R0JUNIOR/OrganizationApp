@@ -156,40 +156,59 @@ struct CustomNumericKeyboard: View {
     
     var body: some View {
         VStack(spacing: 10) {
+           
+       
+                HStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        Text("Typed: \(input)")
+                            .font(.system(size: 16))
+                            .padding(.horizontal, 5)
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        onDismiss?()
+                    } label: {
+                        Text("Done")
+                    }
+                }
+                
+//                .scaledToFit()
+                .foregroundStyle(.white)
+                .padding()
+              
+            
+            
             ForEach(buttons, id: \ .self) { row in
-                HStack(spacing: 10) {
+                HStack() {
                     ForEach(row, id: \ .self) { key in
                         Button(action: {
                             handleKeyPress(key)
                         }) {
-                            Text(key)
-                                .font(.system(size: 28, weight: .medium))
-                                .frame(width: 80, height: 80)
-                                .background(Color(.systemGray5))
-                                .foregroundColor(.black)
-                                .clipShape(Circle())
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.backGround2)
+                                    .frame(height: 50)
+                                    
+                                Text(key)
+                                    .font(.title)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal)
+                            }
                         }
                     }
                 }
             }
-            
-            Button(action: {
-                onDismiss?()
-            }) {
-                Text("Enter")
-                    .font(.system(size: 20, weight: .bold))
-                    .frame(width: 260, height: 50)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            }
-            .padding(.top, 10)
         }
         .padding()
-        .background(Color.white)
+        .scaledToFit()
+        .background(Color.backGround)
+        .opacity(0.9)
         .cornerRadius(10)
-       
+        
     }
+    
     
     private func handleKeyPress(_ key: String) {
         if key == "⌫" {
@@ -206,6 +225,9 @@ struct CustomNumericKeyboard: View {
     }
 }
 
+#Preview {
+    CustomNumericKeyboard(input: .constant(""), onDismiss: {})
+}
 
 #Preview {
     AddInvestment(showModal: .constant(false))

@@ -16,7 +16,7 @@ struct MainBalance_C: View {
     
     var total: Double {
         let user = SwiftData_Manager.shared.user
-        return /*(user?.investments.reduce(0) { $0 + $1.value } ?? 0) +*/ (user?.budget ?? 0)
+        return (user?.investments.reduce(0) { $0 + $1.value } ?? 0) + (user?.budget ?? 0)
         
       }
     
