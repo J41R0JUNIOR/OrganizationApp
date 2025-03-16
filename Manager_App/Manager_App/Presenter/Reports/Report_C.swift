@@ -43,10 +43,7 @@ struct Report_C: View {
        
     
 }
-//
-//#Preview {
-//    Report_C(report: .constant(.init(date: .now, value: 32.55, name: "BTC")))
-//}
+
 
 #Preview {
     Reports_V()

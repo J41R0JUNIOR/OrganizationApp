@@ -9,25 +9,22 @@ import SwiftUI
 
 struct Balance_V: View {
     
-    @State private var dashItems: [DashboardItem] = [
-        .init(id: "chart"),
+    @State private var dashItems: [DashboardItemType] = [
+        .chart,
+
     ]
     
-    @State var draggedItem: DashboardItem?
-    
+    @State var draggedItem: DashboardItemType?
     @State var showAddInvestment: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
-            
-            
             VStack {
-                
-                dashboardView(for: .init(id: "mainBalance"))
+                dashboardView(for: .mainBalance)
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    LazyVStack() {
-                        ForEach(dashItems) { item in
+                    LazyVStack {
+                        ForEach(dashItems, id: \.id) { item in
                             dashboardView(for: item)
                                 .onDrag {
                                     self.draggedItem = item
@@ -41,7 +38,6 @@ struct Balance_V: View {
                 HStack {
                     Button {
                         showAddInvestment.toggle()
-                        
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.largeTitle)
@@ -51,35 +47,55 @@ struct Balance_V: View {
             }
         }
         .padding()
-        .background(.backGround)
-        .sheet(isPresented: $showAddInvestment, content: {AddInvestment(showModal: $showAddInvestment)})
-        
+        .background(Color.backGround)
+        .sheet(isPresented: $showAddInvestment) {
+            AddInvestment_V(showModal: $showAddInvestment)
+        }
         .task {
             SwiftData_Manager.shared.fetch()
+            
+            for n in SwiftData_Manager.shared.user?.wallets ?? [] {
+                self.dashItems.append(.wallet(id: n.id, n))
+            }
         }
     }
     
     @ViewBuilder
-    func dashboardView(for item: DashboardItem) -> some View {
-        switch item.id {
-        case "mainBalance":
+    func dashboardView(for item: DashboardItemType) -> some View {
+        switch item {
+        case .mainBalance:
             MainBalance_C(income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
-        case "chart":
+            
+        case .chart:
             CustomChart_C(data: Binding(
                 get: { SwiftData_Manager.shared.user?.investments ?? [] },
                 set: { SwiftData_Manager.shared.user?.investments = $0 }
             ))
-        default:
-            EmptyView()
+            
+        case .wallet(let id, let wallet):
+            Wallet_C(wallet: wallet)
+        }
+    }
+}
+
+enum DashboardItemType: Identifiable, Equatable {
+    case mainBalance
+    case chart
+    case wallet(id: UUID, Wallet)
+    
+    var id: String {
+        switch self {
+        case .mainBalance: return "mainBalance"
+        case .chart: return "chart"
+        case .wallet(let id, let wallet): return "wallet-\(id)"
         }
     }
 }
 
 struct DropViewDelegate: DropDelegate {
-    let destinationItem: DashboardItem
-    @Binding var itens: [DashboardItem]
-    
-    @Binding var draggedItem: DashboardItem?
+    let destinationItem: DashboardItemType
+    @Binding var itens: [DashboardItemType]
+    @Binding var draggedItem: DashboardItemType?
     
     func dropUpdated(info: DropInfo) -> DropProposal {
         return DropProposal(operation: .move)
@@ -108,3 +124,4 @@ struct DropViewDelegate: DropDelegate {
 #Preview {
     Balance_V()
 }
+

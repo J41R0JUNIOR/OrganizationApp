@@ -25,7 +25,7 @@ struct MainBalance_C: View {
     
     var total: Double {
         let user = SwiftData_Manager.shared.user
-        return (user?.investments.reduce(0) { $0 + $1.value } ?? 0) + (user?.budget ?? 0)
+        return (user?.investments.reduce(0) { $0 + $1.value } ?? 0) 
       }
     
     @State var balance: Double = 0.0
@@ -89,15 +89,6 @@ struct MainBalance_C: View {
         return tot
     }
 }
-
-//#Preview {
-//    MainBalance_C(data: .constant([
-//        .init(type: "Crypto", value: 10, color: .red),
-//        .init(type: "CDB", value: 12, color: .green),
-//        .init(type: "Stocks", value: 50, color: .orange),
-//        .init(type: "NFT", value: 30, color: .purple),
-//    ]), income: .constant(221.4), outcome: .constant(542.3), currency: .constant(.dollar))
-//}
 
 #Preview {
     Balance_V()

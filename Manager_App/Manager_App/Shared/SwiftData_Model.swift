@@ -16,15 +16,30 @@ enum Currency: String {
 @Model
 class User {
     var name: String
-    var budget: Double
     var investments: [Investment]
     var monthReports: [MonthReport]
+    var wallets: [Wallet]
     
-    init(name: String, budget: Double, investments: [Investment], monthReports: [MonthReport]) {
+    init(name: String, investments: [Investment], monthReports: [MonthReport], wallets: [Wallet]) {
         self.name = name
-        self.budget = budget
         self.investments = investments
         self.monthReports = monthReports
+        self.wallets = wallets
+    }
+}
+
+@Model
+class Wallet: Identifiable {
+    var id: UUID
+    var name: String
+    var currency: String
+    var value: Double
+    
+    init(name: String, currency: Currency, value: Double) {
+        self.id = UUID()
+        self.name = name
+        self.currency = currency.rawValue
+        self.value = value
     }
 }
 
@@ -37,11 +52,11 @@ class Investment: Identifiable {
     var value: Double
     var qtd: Double?
     
-    init(identifier: String, symbol: String, type: String, value: Double, qtd: Double? = nil) {
-        self.id = .init()
+    init(identifier: String, symbol: Currency, type: TypesInvesment, value: Double, qtd: Double? = nil) {
+        self.id = UUID()
         self.identifier = identifier
-        self.type = type
-        self.symbol = symbol
+        self.type = type.rawValue
+        self.symbol = symbol.rawValue
         self.value = value
         self.qtd = qtd
     }
@@ -67,7 +82,7 @@ class Report: Identifiable {
     var symbol: String
     
     init(date: Date, value: Double, name: String? = nil, symbol: String) {
-        self.id = .init()
+        self.id = UUID()
         self.date = date
         self.value = value
         self.name = name

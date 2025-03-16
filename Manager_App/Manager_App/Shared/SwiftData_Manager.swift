@@ -40,23 +40,17 @@ class SwiftData_Manager {
         context.insert(user)
         save()
     }
-    
-    func updateBudget(_ newBudget: Double) {
-        guard let user else { return }
-        user.budget = newBudget
-        save()
-    }
 
     
     func addInvestment(_ investment: Investment, subtractFromBudget: Bool = false) {
         guard let user else { return }
      
-        if subtractFromBudget && investment.value < user.budget{
-            user.budget -= investment.value
-            addReport(.init(date: .now, value: -investment.value, symbol: Currency.dollar.rawValue))
-        } else if subtractFromBudget && investment.value > user.budget {
-            return
-        }
+//        if subtractFromBudget && investment.value < user.budget{
+//            user.budget -= investment.value
+//            addReport(.init(date: .now, value: -investment.value, symbol: Currency.dollar.rawValue))
+//        } else if subtractFromBudget && investment.value > user.budget {
+//            return
+//        }
         
         user.investments.append(investment)
         save()
@@ -66,7 +60,7 @@ class SwiftData_Manager {
         guard let user else { return }
         
         if !user.monthReports.contains(where: { Calendar.current.isDate($0.month, inSameDayAs: month) }) {
-            user.monthReports.append(.init(month: month, report: []))
+            user.monthReports.append(MonthReport(month: month, report: []))
             save()
         }
     }
@@ -99,7 +93,7 @@ class SwiftData_Manager {
             self.user = data.first
             
             if user == nil {
-                let newUser = User(name: "", budget: 0, investments: [], monthReports: [])
+                let newUser = User(name: "", investments: [], monthReports: [], wallets: [Wallet(name: "Default", currency: .dollar, value: 0)])
                 saveUser(newUser)
                 self.user = newUser
             }

@@ -11,7 +11,7 @@ import Foundation
 import SwiftUI
 import Foundation
 
-struct AddInvestment: View {
+struct AddInvestment_V: View {
     @Binding var showModal: Bool
     
     @State private var selectedType: TypesInvesment = .stocks
@@ -98,7 +98,7 @@ struct AddInvestment: View {
                 Spacer()
                 
                 Button {
-                    SwiftData_Manager.shared.addInvestment(.init(identifier: identifier, symbol: Currency.dollar.rawValue, type: selectedType.rawValue, value: value, qtd: qtd), subtractFromBudget: subtractFromBudget)
+                    SwiftData_Manager.shared.addInvestment(Investment(identifier: identifier, symbol: .dollar, type: selectedType, value: value, qtd: qtd), subtractFromBudget: subtractFromBudget)
                     showModal.toggle()
                 } label: {
                     HStack {
@@ -130,36 +130,6 @@ struct AddInvestment: View {
 }
 
 
-extension Binding where Value == Double {
-    func formattedNumber() -> Binding<String> {
-        let numberFormatter: NumberFormatter = {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            formatter.locale = Locale(identifier: "en_US")
-            formatter.minimumFractionDigits = 0
-            formatter.maximumFractionDigits = 2
-            return formatter
-        }()
-        
-        return Binding<String>(
-            get: {
-                if self.wrappedValue == 0.0 {
-                    return ""
-                } else {
-                    return numberFormatter.string(from: NSNumber(value: self.wrappedValue)) ?? ""
-                }
-            },
-            set: { newValue in
-                let cleanValue = newValue.replacingOccurrences(of: ",", with: ".")
-                if let parsedValue = numberFormatter.number(from: cleanValue) {
-                    self.wrappedValue = parsedValue.doubleValue
-                }
-            }
-        )
-    }
-}
-
-
 #Preview {
-    AddInvestment(showModal: .constant(false))
+    AddInvestment_V(showModal: .constant(false))
 }

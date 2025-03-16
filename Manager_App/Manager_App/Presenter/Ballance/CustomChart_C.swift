@@ -42,6 +42,7 @@ struct CustomChart_C: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.backGround1)
+                    .shadow(radius: 5)
                 
                 HStack {
                     ZStack {
@@ -164,10 +165,7 @@ struct PieSliceShape: Shape {
     }
 }
 
-//#Preview {
-//    CustomChart_C(data: .constant([.init(identifier: "1", symbol: "AAPL", type: TypesInvesment.reits.rawValue, value: 100), .init(identifier: "2", symbol: "MSFT", type: TypesInvesment.stocks.rawValue, value: 200)]))
-//}
 
 #Preview {
-    CustomChart_C(data: .constant([.init(identifier: "1", symbol: "AAPL", type: TypesInvesment.reits.rawValue, value: 100), .init(identifier: "2", symbol: "MSFT", type: TypesInvesment.stocks.rawValue, value: 200)]))
+    CustomChart_C(data: .constant([Investment(identifier: "1", symbol: .dollar, type: .reits, value: 100), Investment(identifier: "2", symbol: .dollar, type: .stocks, value: 200)]))
 }
