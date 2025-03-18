@@ -15,7 +15,6 @@ struct Balance_V: View {
     ]
     
     @State var draggedItem: DashboardItemType?
-    @State var showAddInvestment: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -36,26 +35,20 @@ struct Balance_V: View {
                 }
                 
                 HStack {
-                    Button {
-                        showAddInvestment.toggle()
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.largeTitle)
-                            .foregroundStyle(.main3)
-                    }
+                
+                    AddButton_C()
+                      
                 }
             }
         }
         .padding()
         .background(Color.backGround)
-        .sheet(isPresented: $showAddInvestment) {
-            AddInvestment_V(showModal: $showAddInvestment)
-        }
+        
         .task {
             SwiftData_Manager.shared.fetch()
             
             for n in SwiftData_Manager.shared.user?.wallets ?? [] {
-                self.dashItems.append(.wallet(id: n.id, n))
+                self.dashItems.append(.wallet(n))
             }
         }
     }
@@ -72,7 +65,7 @@ struct Balance_V: View {
                 set: { SwiftData_Manager.shared.user?.investments = $0 }
             ))
             
-        case .wallet(let id, let wallet):
+        case .wallet(let wallet):
             Wallet_C(wallet: wallet)
         }
     }
@@ -81,13 +74,13 @@ struct Balance_V: View {
 enum DashboardItemType: Identifiable, Equatable {
     case mainBalance
     case chart
-    case wallet(id: UUID, Wallet)
+    case wallet(Wallet)
     
     var id: String {
         switch self {
         case .mainBalance: return "mainBalance"
         case .chart: return "chart"
-        case .wallet(let id, let wallet): return "wallet-\(id)"
+        case .wallet(let wallet): return "wallet-\(wallet.id)"
         }
     }
 }

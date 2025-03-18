@@ -18,6 +18,7 @@ struct Reports_V: View {
     var body: some View {
         ZStack {
             Color.backGround
+                .ignoresSafeArea()
             VStack {
                 Picker("Mês", selection: $selectedMonth) {
                     ForEach(SwiftData_Manager.shared.user?.monthReports.map(\.month) ?? [], id: \.self) { month in
@@ -41,9 +42,7 @@ struct Reports_V: View {
                         .foregroundStyle(.white)
                 }
             }
-            .padding()
         }
-//        .ignoresSafeArea()
     }
 }
 

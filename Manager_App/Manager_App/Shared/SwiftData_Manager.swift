@@ -20,7 +20,7 @@ class SwiftData_Manager {
          do {
              #warning("Não esquecer trocar pro appContainer")
              
-             let testContainer = ModelContainer.testContainer
+             let testContainer = ModelContainer.appContainer
              self.container = testContainer
              self.context = ModelContext(testContainer)
              

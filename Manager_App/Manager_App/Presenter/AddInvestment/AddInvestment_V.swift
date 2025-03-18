@@ -12,7 +12,7 @@ import SwiftUI
 import Foundation
 
 struct AddInvestment_V: View {
-    @Binding var showModal: Bool
+    @Binding var isPresented: Bool
     
     @State private var selectedType: TypesInvesment = .stocks
     @State private var value: Double = 0
@@ -33,7 +33,7 @@ struct AddInvestment_V: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
+
             VStack {
                 Text("Add Investment")
                     .font(.largeTitle)
@@ -119,7 +119,7 @@ struct AddInvestment_V: View {
                 Button {
                     if(walletChosed != nil){
                         SwiftData_Manager.shared.addInvestment(Investment(identifier: identifier, symbol: .dollar, type: selectedType, value: value, qtd: qtd), wallet: subtractFromWallet ? walletChosed : nil)
-                        showModal.toggle()
+                        isPresented.toggle()
                     }
                 } label: {
                     HStack {
@@ -132,7 +132,7 @@ struct AddInvestment_V: View {
                 .buttonStyle(.borderedProminent)
                 
                 Button {
-                    showModal.toggle()
+                    isPresented.toggle()
                 } label: {
                     HStack {
                         Spacer()
@@ -144,7 +144,7 @@ struct AddInvestment_V: View {
                 .buttonStyle(.bordered)
             }
             .padding()
-        }
+        
         .foregroundStyle(.white)
         .background(Color.backGround)
     }
@@ -152,5 +152,5 @@ struct AddInvestment_V: View {
 
 
 #Preview {
-    AddInvestment_V(showModal: .constant(false))
+    AddInvestment_V(isPresented: .constant(false))
 }
