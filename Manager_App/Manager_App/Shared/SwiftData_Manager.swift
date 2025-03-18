@@ -61,10 +61,16 @@ class SwiftData_Manager {
             addReport(Report(date: .now, value: -investment.value, symbol: .dollar, wallet: wallet.name))
             print("foi em")
         }
-        print(wallet?.name)
 
         
         user.investments.append(investment)
+        save()
+    }
+    
+    func addWallet(_ wallet: Wallet) {
+        guard let user else { return }
+        
+        user.wallets.append(wallet)
         save()
     }
     

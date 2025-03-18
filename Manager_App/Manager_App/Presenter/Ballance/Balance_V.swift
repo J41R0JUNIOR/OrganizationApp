@@ -11,13 +11,16 @@ struct Balance_V: View {
     
     @State private var dashItems: [DashboardItemType] = [
         .chart,
-
+        
     ]
     
     @State var draggedItem: DashboardItemType?
     
     var body: some View {
-        GeometryReader { geometry in
+        ZStack {
+            Color.backGround
+                .ignoresSafeArea()
+            
             VStack {
                 dashboardView(for: .mainBalance)
                 
@@ -33,22 +36,24 @@ struct Balance_V: View {
                         }
                     }
                 }
-                
-                HStack {
-                
-                    AddButton_C()
-                      
-                }
             }
-        }
-        .padding()
-        .background(Color.backGround)
-        
-        .task {
-            SwiftData_Manager.shared.fetch()
             
-            for n in SwiftData_Manager.shared.user?.wallets ?? [] {
-                self.dashItems.append(.wallet(n))
+            .padding()
+            //        .background(Color.backGround)
+            
+            .overlay(content: {
+                VStack {
+                    Spacer()
+                    AddButton_C()
+                }.padding()
+            })
+            
+            .task {
+                SwiftData_Manager.shared.fetch()
+                
+                for n in SwiftData_Manager.shared.user?.wallets ?? [] {
+                    self.dashItems.append(.wallet(n))
+                }
             }
         }
     }

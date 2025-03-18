@@ -9,7 +9,7 @@ import Foundation
 import SwiftUICore
 import SwiftData
 
-enum Currency: String {
+enum Currency: String, CaseIterable {
     case dollar = "$"
 }
 

@@ -48,13 +48,11 @@ struct AddButton_C: View {
                         Image(systemName: "xmark.circle.fill")
                     }
                     .foregroundStyle(.red)
-                    
-                    
                 }
+                
             } else {
                 Button {
-                    
-                        showOptions = true
+                    showOptions = true
                     
                 } label: {
                     Image(systemName: "plus.circle.fill")
