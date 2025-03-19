@@ -167,5 +167,5 @@ struct PieSliceShape: Shape {
 
 
 #Preview {
-    CustomChart_C(data: .constant([Investment(identifier: "1", symbol: .dollar, type: .reits, value: 100), Investment(identifier: "2", symbol: .dollar, type: .stocks, value: 200)]))
+    CustomChart_C(data: .constant([Investment(identifier: "1", type: .reits, value: 100), Investment(identifier: "2", type: .stocks, value: 200)]))
 }

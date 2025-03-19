@@ -32,13 +32,13 @@ class User {
 class Wallet: Identifiable, Hashable {
     var id: UUID
     var name: String
-    var currency: String
+//    var currency: String
     var value: Double
     
-    init(name: String, currency: Currency, value: Double) {
+    init(name: String/*, currency: Currency*/, value: Double) {
         self.id = UUID()
         self.name = name
-        self.currency = currency.rawValue
+//        self.currency = currency.rawValue
         self.value = value
     }
     
@@ -56,15 +56,15 @@ class Investment: Identifiable {
     var id: UUID
     var identifier: String
     var type: String
-    var symbol: String
+//    var symbol: String
     var value: Double
     var qtd: Double?
     
-    init(identifier: String, symbol: Currency, type: TypesInvesment, value: Double, qtd: Double? = nil) {
+    init(identifier: String/*, symbol: Currency*/, type: TypesInvesment, value: Double, qtd: Double? = nil) {
         self.id = UUID()
         self.identifier = identifier
         self.type = type.rawValue
-        self.symbol = symbol.rawValue
+//        self.symbol = symbol.rawValue
         self.value = value
         self.qtd = qtd
     }
@@ -88,14 +88,14 @@ class Report: Identifiable {
     var value: Double
     var wallet: String
     var name: String?
-    var symbol: String
+//    var symbol: String
     
-    init(date: Date, value: Double, name: String? = nil, symbol: Currency, wallet: String) {
+    init(date: Date, value: Double, name: String? = nil/*, symbol: Currency*/, wallet: String) {
         self.id = UUID()
         self.date = date
         self.value = value
         self.name = name
-        self.symbol = symbol.rawValue
+//        self.symbol = symbol.rawValue
         self.wallet = wallet
     }
 }

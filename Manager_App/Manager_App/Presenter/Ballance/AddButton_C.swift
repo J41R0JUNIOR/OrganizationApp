@@ -26,7 +26,7 @@ struct AddButton_C: View {
                             ZStack {
                                 Circle()
                                     .foregroundStyle(.backGround1)
-                                    .shadow(radius: 1)
+                                    .shadow(radius: 1.5)
                            
                                 Image(systemName: "wallet.bifold")
                             }
@@ -43,7 +43,7 @@ struct AddButton_C: View {
                             ZStack {
                                 Circle()
                                     .foregroundStyle(.backGround1)
-                                    .shadow(radius: 1)
+                                    .shadow(radius: 1.5)
                            
                                 Image(systemName: "dollarsign")
                             }
@@ -52,7 +52,6 @@ struct AddButton_C: View {
                     }
                     .font(.callout)
                     .aspectRatio(0,contentMode: .fit)
-//                    .padding()
                     
                     Button {
                         showOptions = false

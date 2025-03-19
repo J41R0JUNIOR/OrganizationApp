@@ -17,10 +17,10 @@ struct Wallets_C: View {
                     
                     HStack {
                         VStack(alignment: .leading, spacing: 10) {
-                            Text("Wallet: \(wallet.name)")
+                            Text("\(wallet.name)")
                                 .font(.title)
                                 .bold()
-                            Text("\(wallet.currency) \(String(format: "%.2f", wallet.value))")
+                            Text("$\(String(format: "%.2f", wallet.value))")
                             
                         }
                         .padding(.horizontal)

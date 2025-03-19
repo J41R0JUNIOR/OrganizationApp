@@ -20,7 +20,7 @@ class SwiftData_Manager {
          do {
              #warning("Não esquecer trocar pro appContainer")
              
-             let testContainer = ModelContainer.testContainer
+             let testContainer = ModelContainer.appContainer
              self.container = testContainer
              self.context = ModelContext(testContainer)
              
@@ -54,7 +54,7 @@ class SwiftData_Manager {
                 return
             }
             wallet.value -= investment.value
-            addReport(Report(date: .now, value: -investment.value, symbol: .dollar, wallet: wallet.name))
+            addReport(Report(date: .now, value: -investment.value, wallet: wallet.name))
             print("foi em")
         }
 
@@ -107,7 +107,7 @@ class SwiftData_Manager {
             self.user = data.first
             
             if user == nil {
-                let newUser = User(name: "", investments: [], monthReports: [], wallets: [Wallet(name: "Default", currency: .dollar, value: 100)])
+                let newUser = User(name: "", investments: [], monthReports: [], wallets: [Wallet(name: "Default", value: 100)])
                 saveUser(newUser)
                 self.user = newUser
             }

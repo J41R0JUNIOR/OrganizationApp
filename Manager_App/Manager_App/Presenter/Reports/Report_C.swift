@@ -20,7 +20,7 @@ struct Report_C: View {
                     Text(report.name ?? "Error report name")
                         .bold()
                     
-                    Text("\(report.symbol) \(String(format: "%.2f", report.value))")
+                    Text("$\(String(format: "%.2f", report.value))")
                         .font(.caption)
                 }
                 
@@ -49,5 +49,5 @@ struct Report_C: View {
 }
 
 #Preview {
-    Report_C(report: .constant(.init(date: .now, value: -12, name: "BBAS3", symbol: .dollar, wallet: "Default")))
+    Report_C(report: .constant(.init(date: .now, value: -12, name: "BBAS3", wallet: "Default")))
 }

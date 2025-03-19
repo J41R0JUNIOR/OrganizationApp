@@ -61,7 +61,7 @@ struct AddWallet_V: View {
             Spacer()
 
             Button {
-                let newWallet = Wallet(name: name, currency: selectedCurrency, value: value)
+                let newWallet = Wallet(name: name, value: value)
                 SwiftData_Manager.shared.addWallet(newWallet)
                 isPresented.toggle()
             } label: {

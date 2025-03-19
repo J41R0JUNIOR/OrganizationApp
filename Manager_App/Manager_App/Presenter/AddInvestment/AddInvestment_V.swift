@@ -117,7 +117,7 @@ struct AddInvestment_V: View {
             Spacer()
             
             Button {
-                SwiftData_Manager.shared.addInvestment(Investment(identifier: identifier, symbol: .dollar, type: selectedType, value: value, qtd: qtd), wallet: subtractFromWallet ? walletChosed : nil)
+                SwiftData_Manager.shared.addInvestment(Investment(identifier: identifier, type: selectedType, value: value, qtd: qtd), wallet: subtractFromWallet ? walletChosed : nil)
                 isPresented.toggle()
             } label: {
                 HStack {
