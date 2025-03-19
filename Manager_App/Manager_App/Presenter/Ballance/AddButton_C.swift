@@ -15,8 +15,13 @@ struct AddButton_C: View {
     var body: some View {
         ZStack {
             if showOptions {
+                
+                Color.black.opacity(0.5).ignoresSafeArea()
+                
                 VStack(spacing: 20) {
-                  
+                    
+                    Spacer()
+                    
                     HStack {
                         
                         Button {
@@ -61,16 +66,24 @@ struct AddButton_C: View {
                     }
                     .foregroundStyle(.red)
                 }
+                .padding()
+               
                 
             } else {
-                Button {
-                    showOptions = true
+                
+                VStack {
                     
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                       
+                    Spacer()
+                    
+                    Button {
+                        showOptions = true
+                        
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                        
+                    }
+                    .transition(.opacity.combined(with: .scale))
                 }
-                .transition(.opacity.combined(with: .scale))
             }
         }
         .font(.largeTitle)

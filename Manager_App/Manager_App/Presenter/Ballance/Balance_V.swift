@@ -28,11 +28,11 @@ struct Balance_V: View {
                 
             }
             .overlay(content: {
-                VStack {
-                    Spacer()
+  
+                
                     AddButton_C()
-                }
-                .padding()
+                
+      
             })
         }
     }
