@@ -33,7 +33,7 @@ struct MainBalance_C: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.backGround2)
+                .fill(Color.backGround1)
             
             VStack {
                 
@@ -56,7 +56,7 @@ struct MainBalance_C: View {
                 }
                 .scaledToFit()
             }
-            .foregroundStyle(.white)
+            .foregroundStyle(.main3)
             .scaledToFit()
             .padding(.horizontal)
             
