@@ -20,6 +20,12 @@ struct Content_V: View {
                     Text("Balance")
                 }
             
+            Investment_V()
+                .tabItem {
+                    Image(systemName: "bitcoinsign.circle")
+                    Text("Investments")
+                }
+            
             Reports_V() 
                 .tabItem {
                     Image(systemName: "list.bullet")
@@ -37,7 +43,7 @@ struct Content_V: View {
         }
         
         .foregroundStyle(.main3)
-        .tint(Color.main3)
+        .tint(Color.main1)
     }
 }
 

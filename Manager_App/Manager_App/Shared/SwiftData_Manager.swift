@@ -46,22 +46,29 @@ class SwiftData_Manager {
     
     func addInvestment(_ investment: Investment, wallet: Wallet? = nil) {
         guard let user else { return }
-
+        
+        var newInvestment = investment
+        newInvestment.type = newInvestment.type.lowercased()
+        
+        if let index = user.investments.firstIndex(where: { $0.type == newInvestment.type }) {
+            user.investments[index].value += newInvestment.value
+        } else {
+            user.investments.append(newInvestment)
+        }
+        
         if let wallet {
-            if wallet.value < investment.value {
-                print("foi nao em")
-                print(wallet.value, investment.value)
+            guard wallet.value >= newInvestment.value else {
+                print(wallet.value, newInvestment.value)
                 return
             }
-            wallet.value -= investment.value
-            addReport(Report(date: .now, value: -investment.value, wallet: wallet.name))
-            print("foi em")
+            
+            wallet.value -= newInvestment.value
+            addReport(Report(date: .now, value: -newInvestment.value, wallet: wallet.name))
         }
 
-        
-        user.investments.append(investment)
         save()
     }
+
     
     func addWallet(_ wallet: Wallet) {
         guard let user else { return }
@@ -107,7 +114,7 @@ class SwiftData_Manager {
             self.user = data.first
             
             if user == nil {
-                let newUser = User(name: "", investments: [], monthReports: [], wallets: [Wallet(name: "Default", value: 100)])
+                let newUser = User(name: "", investments: [], monthReports: [], wallets: [Wallet(name: "Default", value: 0)])
                 saveUser(newUser)
                 self.user = newUser
             }

@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Charts
 
 struct Balance_V: View {
-
+    
     var body: some View {
         ZStack {
             Color.backGround
@@ -18,20 +19,20 @@ struct Balance_V: View {
                 MainBalance_C().padding()
                 
                 List{
-
+                    
                     CustomChart_C(data: .init(get: { SwiftData_Manager.shared.user?.investments ?? [] }, set: { _ in }))
                     
                     Wallets_C()
                 }
-                .lineSpacing(0)
                 .scrollContentBackground(.hidden)
-
+                
             }
             .overlay(content: {
                 VStack {
                     Spacer()
                     AddButton_C()
-                }.padding()
+                }
+                .padding()
             })
         }
     }
