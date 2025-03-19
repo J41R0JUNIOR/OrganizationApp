@@ -20,7 +20,7 @@ class SwiftData_Manager {
          do {
              #warning("Não esquecer trocar pro appContainer")
              
-             let testContainer = ModelContainer.appContainer
+             let testContainer = ModelContainer.testContainer
              self.container = testContainer
              self.context = ModelContext(testContainer)
              
@@ -34,6 +34,8 @@ class SwiftData_Manager {
         } catch {
             print("Error saving data: \(error)")
         }
+        
+        fetch()
     }
 
     func saveUser(_ user: User) {
@@ -44,13 +46,7 @@ class SwiftData_Manager {
     
     func addInvestment(_ investment: Investment, wallet: Wallet? = nil) {
         guard let user else { return }
-     
-//        if subtractFromBudget && investment.value < user.budget{
-//            user.budget -= investment.value
-//            addReport(.init(date: .now, value: -investment.value, symbol: Currency.dollar.rawValue))
-//        } else if subtractFromBudget && investment.value > user.budget {
-//            return
-//        }
+
         if let wallet {
             if wallet.value < investment.value {
                 print("foi nao em")

@@ -100,12 +100,3 @@ class Report: Identifiable {
     }
 }
 
-struct DashboardItem: Identifiable, Equatable {
-    var id: String
-}
-
-enum TypesInvesment: String, CaseIterable {
-    case stocks
-    case cryptos
-    case reits
-}

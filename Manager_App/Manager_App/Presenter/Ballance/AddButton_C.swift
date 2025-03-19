@@ -19,13 +19,18 @@ struct AddButton_C: View {
                   
                     HStack {
                         
-                        Spacer()
                         Button {
                             showAddWallet = true
                             showOptions = false
                         } label: {
-                            Image(systemName: "wallet.bifold")
-                 
+                            ZStack {
+                                Circle()
+                                    .foregroundStyle(.backGround1)
+                                    .shadow(radius: 1)
+                           
+                                Image(systemName: "wallet.bifold")
+                            }
+                            .frame(width: 40, height: 40)
                         }
                         
                         Spacer()
@@ -34,12 +39,20 @@ struct AddButton_C: View {
                             showAddInvestment = true
                             showOptions = false
                         } label: {
-                            Image(systemName: "dollarsign")
-                  
+                    
+                            ZStack {
+                                Circle()
+                                    .foregroundStyle(.backGround1)
+                                    .shadow(radius: 1)
+                           
+                                Image(systemName: "dollarsign")
+                            }
+                            .frame(width: 40, height: 40)
                         }
-                        
-                        Spacer()
-                    }.padding()
+                    }
+                    .font(.callout)
+                    .aspectRatio(0,contentMode: .fit)
+//                    .padding()
                     
                     Button {
                         showOptions = false
