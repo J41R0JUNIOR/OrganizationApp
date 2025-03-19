@@ -39,10 +39,8 @@ struct CustomChart_C: View {
     
     var body: some View {
         if !groupedInvestments.isEmpty {
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.backGround1)
-                    .shadow(radius: 5)
+            Section(header: Text("Investments chart")) {
+            
                 
                 HStack {
                     ZStack {
@@ -79,8 +77,9 @@ struct CustomChart_C: View {
                         LegendGridView(data: groupedInvestments)
                     
                 }
-                .padding()
             }
+            .listRowBackground(Color.backGround1)
+            .foregroundStyle(Color.main3)
         }
     }
     

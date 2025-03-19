@@ -15,25 +15,24 @@ struct Balance_V: View {
                 .ignoresSafeArea()
             
             VStack {
-                MainBalance_C()
+                MainBalance_C().padding()
                 
-                ScrollView(.vertical, showsIndicators: false) {
+                List{
 
                     CustomChart_C(data: .init(get: { SwiftData_Manager.shared.user?.investments ?? [] }, set: { _ in }))
                     
                     Wallets_C()
                 }
+                .lineSpacing(0)
+                .scrollContentBackground(.hidden)
+
             }
-            
-            .padding()
-            
             .overlay(content: {
                 VStack {
                     Spacer()
                     AddButton_C()
                 }.padding()
             })
-          
         }
     }
 }
