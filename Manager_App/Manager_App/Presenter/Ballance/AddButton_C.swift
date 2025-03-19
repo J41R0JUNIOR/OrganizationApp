@@ -11,12 +11,11 @@ struct AddButton_C: View {
     @State private var showOptions: Bool = false
     @State private var showAddInvestment: Bool = false
     @State private var showAddWallet: Bool = false
-
+    
     var body: some View {
         ZStack {
             if showOptions {
-                
-                Color.black.opacity(0.5).ignoresSafeArea()
+                Color.black.opacity(0.7).ignoresSafeArea()
                 
                 VStack(spacing: 20) {
                     
@@ -32,7 +31,7 @@ struct AddButton_C: View {
                                 Circle()
                                     .foregroundStyle(.backGround1)
                                     .shadow(radius: 1.5)
-                           
+                                
                                 Image(systemName: "wallet.bifold")
                             }
                             .frame(width: 40, height: 40)
@@ -44,12 +43,12 @@ struct AddButton_C: View {
                             showAddInvestment = true
                             showOptions = false
                         } label: {
-                    
+                            
                             ZStack {
                                 Circle()
                                     .foregroundStyle(.backGround1)
                                     .shadow(radius: 1.5)
-                           
+                                
                                 Image(systemName: "dollarsign")
                             }
                             .frame(width: 40, height: 40)
@@ -61,13 +60,13 @@ struct AddButton_C: View {
                     Button {
                         showOptions = false
                     } label: {
-                      
+                        
                         Image(systemName: "xmark.circle.fill")
                     }
                     .foregroundStyle(.red)
                 }
                 .padding()
-               
+                
                 
             } else {
                 
