@@ -28,8 +28,6 @@ struct MainBalance_C: View {
         return (user?.investments.reduce(0) { $0 + $1.value } ?? 0) + (user?.wallets.reduce(0) { $0 + $1.value } ?? 0)
     }
     
-   
-    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)

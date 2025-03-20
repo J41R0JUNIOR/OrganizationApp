@@ -14,7 +14,17 @@ struct DashboardItem: Identifiable, Equatable {
 }
 
 enum TypesInvesment: String, CaseIterable {
+    
     case stocks
     case cryptos
     case reits
+    case other
+}
+
+extension TypesInvesment: Identifiable {
+    var id: UUID {
+        .init()
+    }
+    
+    
 }

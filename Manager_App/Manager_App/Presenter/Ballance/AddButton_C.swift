@@ -14,6 +14,7 @@ struct AddButton_C: View {
     
     var body: some View {
         ZStack {
+   
             if showOptions {
                 Color.black.opacity(0.7).ignoresSafeArea()
                 
@@ -106,6 +107,6 @@ struct AddButton_C: View {
 }
 
 #Preview {
-    Balance_V()
+    Content_V()
 }
 

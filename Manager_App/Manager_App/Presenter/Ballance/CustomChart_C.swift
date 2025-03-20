@@ -28,6 +28,8 @@ struct CustomChart_C: View {
                     return (type, totalValue, Color.orange.toHex())
                 case .reits:
                     return (type, totalValue, Color.blue.toHex())
+                case .other:
+                    return (type, totalValue, Color.purple.toHex())
             }
         }
         .sorted { $0.type < $1.type } 

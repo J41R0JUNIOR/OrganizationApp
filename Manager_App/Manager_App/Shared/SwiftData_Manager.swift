@@ -47,11 +47,12 @@ class SwiftData_Manager {
     func addInvestment(_ investment: Investment, wallet: Wallet? = nil) {
         guard let user else { return }
         
-        var newInvestment = investment
+        let newInvestment = investment
         newInvestment.type = newInvestment.type.lowercased()
         
-        if let index = user.investments.firstIndex(where: { $0.type == newInvestment.type }) {
+        if let index = user.investments.firstIndex(where: { $0.identifier == newInvestment.identifier }) {
             user.investments[index].value += newInvestment.value
+            user.investments[index].qtd? += newInvestment.qtd ?? 0
         } else {
             user.investments.append(newInvestment)
         }
