@@ -48,12 +48,13 @@ class SwiftData_Manager {
         guard let user else { return }
         
         let newInvestment = investment
-        newInvestment.type = newInvestment.type.lowercased()
+        newInvestment.identifier = newInvestment.identifier.uppercased()
         
         if let index = user.investments.firstIndex(where: { $0.identifier == newInvestment.identifier }) {
             user.investments[index].value += newInvestment.value
             user.investments[index].qtd? += newInvestment.qtd ?? 0
         } else {
+            print(newInvestment.identifier)
             user.investments.append(newInvestment)
         }
         
