@@ -9,22 +9,33 @@ import SwiftUI
 
 struct Settings_V: View {
     var body: some View {
-//        VStack {
-//            
-//        }.background(Color.backGroundPurple)
+        //        VStack {
+        //
+        //        }.background(Color.backGroundPurple)
         ZStack{
             Color.backGround
                 .ignoresSafeArea()
             
-            VStack {
+            List {
                 
                 Button {
                     SwiftData_Manager.shared.removeAllInvestments()
                 } label: {
-                    Image(systemName: "trash.fill")
-                    Text("Restore Default")
-//                        .font(.largeTitle)
-                        .foregroundStyle(.main3)
+                    HStack {
+                        Image(systemName: "trash.fill")
+                        Text("Restore Default")
+                        //                        .font(.largeTitle)
+                            .foregroundStyle(.main3)
+                    }
+                }
+                
+                Button {
+                    SwiftData_Manager.shared.toggleInvestment()
+                } label: {
+                    HStack {
+                        Image(systemName: SwiftData_Manager.shared.user?.optionInvestment ?? false ? "checkmark.circle.fill" : "circle")
+                        Text("Show Investments")
+                    }
                 }
             }
         }

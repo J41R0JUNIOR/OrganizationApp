@@ -20,11 +20,13 @@ struct Content_V: View {
                     Text("Balance")
                 }
             
-            Investment_V()
-                .tabItem {
-                    Image(systemName: "bitcoinsign.circle")
-                    Text("Investments")
-                }
+            if (SwiftData_Manager.shared.user?.optionInvestment ?? false) {
+                Investment_V()
+                    .tabItem {
+                        Image(systemName: "bitcoinsign.circle")
+                        Text("Investments")
+                    }
+            }
             
             Reports_V() 
                 .tabItem {

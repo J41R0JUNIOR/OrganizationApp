@@ -20,11 +20,14 @@ class User {
     var monthReports: [MonthReport]
     var wallets: [Wallet]
     
+    var optionInvestment: Bool
+    
     init(name: String, investments: [Investment], monthReports: [MonthReport], wallets: [Wallet]) {
         self.name = name
         self.investments = investments
         self.monthReports = monthReports
         self.wallets = wallets
+        self.optionInvestment = false
     }
 }
 

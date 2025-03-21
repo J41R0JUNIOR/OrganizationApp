@@ -42,6 +42,13 @@ class SwiftData_Manager {
         context.insert(user)
         save()
     }
+    
+    func toggleInvestment(){
+        guard let user else { return }
+        
+        user.optionInvestment.toggle()
+        save()
+    }
 
     
     func addInvestment(_ investment: Investment, wallet: Wallet? = nil) {
